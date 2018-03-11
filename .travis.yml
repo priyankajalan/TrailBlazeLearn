@@ -15,12 +15,3 @@ script:
   - ./gradlew build jacocoTestReport assembleAndroidTest
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  local-dir: app/build/reports/tests/testDebugUnitTest
-  on:
-    branch: master
