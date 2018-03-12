@@ -4,5 +4,5 @@ package org.nus.trailblaze.models;
  * Created by plasmashadow on 3/11/18.
  */
 
-public class TextDocument {
+public class TextDocument extends File {
 }

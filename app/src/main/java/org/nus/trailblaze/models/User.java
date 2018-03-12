@@ -9,9 +9,9 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class User {
-    public String id;
-    public String name;
-    public String email;
+    private String id;
+    private String name;
+    private String email;
 
     public String getId() {
         return id;
