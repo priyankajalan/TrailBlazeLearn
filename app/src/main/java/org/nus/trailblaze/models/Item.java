@@ -11,6 +11,13 @@ public class Item {
     private Date createdDate;
     private File file;
 
+    public Item(String id, User user, Date createdDate, File file) {
+        this.id = id;
+        this.user = user;
+        this.createdDate = createdDate;
+        this.file = file;
+    }
+
     public String getId() {
         return id;
     }
