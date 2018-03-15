@@ -11,6 +11,24 @@ public class File {
     private String url;
     private Float size;
     private Date uploadDate;
+    private String mimeType;
+
+    public File(String id, String name, String url, Float size, Date uploadDate, String mimeType) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.size = size;
+        this.uploadDate = uploadDate;
+        this.mimeType = mimeType;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
 
     public String getId() {
         return id;
