@@ -3,13 +3,18 @@ package org.nus.trailblaze.models;
 /**
  * Created by plasmashadow on 3/11/18.
  */
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Item {
+public class Item implements Parcelable {
     private String id;
     private User user;
     private Date createdDate;
     private File file;
+
+    public Item(){}
 
     public Item(String id, User user, Date createdDate, File file) {
         this.id = id;
@@ -49,4 +54,36 @@ public class Item {
     public void setFile(File file) {
         this.file = file;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Storing the Movie data to Parcel object
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getId());
+    }
+
+    /**
+     * Retrieving Movie data from Parcel object
+     * This constructor is invoked by the method createFromParcel(Parcel source) of
+     * the object CREATOR
+     **/
+    private Item(Parcel in){
+        this.setId(in.readString());
+    }
+
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel source) {
+            return new Item(source);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }
