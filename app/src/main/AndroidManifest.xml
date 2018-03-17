@@ -10,6 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TrailBlazeMainActivity">
+        </activity>
+        <activity android:name=".TrailBlazaFeedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,5 +19,5 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

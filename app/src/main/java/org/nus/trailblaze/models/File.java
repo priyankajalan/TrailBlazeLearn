@@ -3,14 +3,35 @@ package org.nus.trailblaze.models;
 /**
  * Created by plasmashadow on 3/11/18.
  */
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class File {
+public class File implements Parcelable {
     private String id;
     private String name;
     private String url;
     private Float size;
     private Date uploadDate;
+    private String mimeType;
+
+    public File(String id, String name, String url, Float size, Date uploadDate, String mimeType) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.size = size;
+        this.uploadDate = uploadDate;
+        this.mimeType = mimeType;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
 
     public String getId() {
         return id;
@@ -51,4 +72,38 @@ public class File {
     public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // Storing the Movie data to Parcel object
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getMimeType());
+        dest.writeString(getUrl());
+    }
+
+    /**
+     * Retrieving Movie data from Parcel object
+     * This constructor is invoked by the method createFromParcel(Parcel source) of
+     * the object CREATOR
+     **/
+    private File(Parcel in){
+        this.setMimeType(in.readString());
+        this.setUrl(in.readString());
+    }
+
+    public static final Parcelable.Creator<File> CREATOR = new Parcelable.Creator<File>() {
+        @Override
+        public File createFromParcel(Parcel source) {
+            return new File(source);
+        }
+
+        @Override
+        public File[] newArray(int size) {
+            return new File[size];
+        }
+    };
 }
