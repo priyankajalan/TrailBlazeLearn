@@ -63,6 +63,7 @@
             android:layout_marginTop="20dp"
             android:text="Login with Facebook"
             android:background="@drawable/btn_facebook"
+            android:id="@+id/facebookBtn"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_width="match_parent"
@@ -71,6 +72,7 @@
         <Button
             android:text="Login with Google"
             android:background="@drawable/btn_google"
+            android:id="@+id/googleBtn"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
