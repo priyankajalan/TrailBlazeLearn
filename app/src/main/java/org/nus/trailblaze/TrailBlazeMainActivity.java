@@ -5,6 +5,8 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ProgressBar;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -15,6 +17,9 @@ import org.nus.trailblaze.listeners.FirebaseGoogleSignupListener;
 import org.nus.trailblaze.listeners.FirebaseGoogleSignupFailure;
 import org.nus.trailblaze.dao.auth.GoogleDao;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TrailBlazeMainActivity extends AppCompatActivity {
 
 
@@ -24,10 +29,14 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     private GoogleDao gDao;
     public FirebaseUser loggedInUser;
 
+    @BindView(R.id.progressBar)
+    ProgressBar bar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trail_blaze_main);
+        ButterKnife.bind(this);
         gDao = new GoogleDao();
         gClient = gDao.getClient(this);
         Log.d("client id", getString(R.string.default_web_client_id));
@@ -58,8 +67,10 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
             Log.d(String.valueOf(requestCode), data.toString());
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d("account", account.toString());
+                bar.setVisibility(bar.VISIBLE);
                 this.gDao
                         .createFirebaseGoogleAuth(account)
                         .addOnCompleteListener(this,
