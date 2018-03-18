@@ -75,7 +75,6 @@
             android:background="@drawable/btn_google"
             android:id="@+id/googleBtn"
             android:textColor="@color/white"
-            android:id="@+id/googleBtn"
             android:onClick="googleClickListener"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
