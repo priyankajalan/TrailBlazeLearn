@@ -1,4 +1,4 @@
-package org.nus.trailblaze.dao.auth;
+package org.nus.trailblaze;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

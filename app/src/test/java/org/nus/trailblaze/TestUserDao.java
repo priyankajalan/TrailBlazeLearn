@@ -1,4 +1,4 @@
-package org.nus.trailblaze.dao;
+package org.nus.trailblaze;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
