@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.Task;
 import org.nus.trailblaze.listeners.FirebaseGoogleSignupListener;
 import org.nus.trailblaze.listeners.FirebaseGoogleSignupFailure;
-import org.nus.trailblaze.dao.auth.GoogleDao;
+import org.nus.trailblaze.dao.GoogleDao;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

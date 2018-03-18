@@ -1,4 +1,4 @@
-package org.nus.trailblaze.dao.auth;
+package org.nus.trailblaze.dao;
 
 
 import android.app.Activity;
@@ -33,7 +33,7 @@ public class GoogleDao {
         this.auth = FirebaseAuth.getInstance();
     }
 
-    public static GoogleSignInOptions getOptions(){
+    public GoogleSignInOptions getOptions(){
         return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("521102015172-15i641ilk0nedmi2je3gph69jdgdrn0m.apps.googleusercontent.com")
                 .requestEmail()
@@ -41,7 +41,7 @@ public class GoogleDao {
     }
 
     public GoogleSignInClient getClient(Activity act) {
-        GoogleSignInOptions gso = GoogleDao.getOptions();
+        GoogleSignInOptions gso = this.getOptions();
         GoogleSignInClient client = GoogleSignIn.getClient(act, gso);
         return client;
     }

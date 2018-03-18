@@ -2,6 +2,8 @@ package org.nus.trailblaze;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import android.app.Activity;
@@ -17,12 +19,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.mockito.Mock;
 import static org.junit.Assert.*;
-import org.nus.trailblaze.dao.auth.GoogleDao;
+import org.nus.trailblaze.dao.GoogleDao;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.api.mockito.PowerMockito;
@@ -31,7 +34,11 @@ import org.powermock.api.mockito.PowerMockito;
  */
 
 
+// This tests doesn't reflect on coverage.
+// https://groups.google.com/forum/#!topic/jacoco/wxXMr-vk8xU
+
 @RunWith(PowerMockRunner.class)
+@PrepareForTest({GoogleAuthProvider.class, FirebaseAuth.class, GoogleSignIn.class})
 public class TestGoogleDao {
 
     @Mock
@@ -52,7 +59,7 @@ public class TestGoogleDao {
     @Mock
     Activity act;
 
-    @PrepareForTest(GoogleAuthProvider.class)
+
     @Test
     public void testFirebaseGooglePass(){
         PowerMockito.mockStatic(TextUtils.class);
@@ -64,13 +71,12 @@ public class TestGoogleDao {
         verify(auth).signInWithCredential(cred);
     }
 
-    @PrepareForTest({GoogleDao.class, GoogleSignIn.class})
     @Test
     public void testGetSignInClient(){
-        PowerMockito.mockStatic(GoogleDao.class);
         PowerMockito.mockStatic(GoogleSignIn.class);
         GoogleDao dao = new GoogleDao(this.auth);
-        PowerMockito.when(GoogleDao.getOptions()).thenReturn(opts);
+        dao = spy(dao);
+        doReturn(opts).when(dao).getOptions();
         PowerMockito.when(GoogleSignIn.getClient(this.act, opts)).thenReturn(client);
         assertThat(dao.getClient(this.act), is(client));
     }
