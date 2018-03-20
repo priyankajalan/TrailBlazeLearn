@@ -18,6 +18,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.nus.trailblaze.R;
+
 import java.util.UUID;
 
 public class ContributedItemPDFActivity extends AppCompatActivity {
@@ -95,14 +97,14 @@ public class ContributedItemPDFActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
-                            Toast.makeText(ContributedItemPdfActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ContributedItemPDFActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
-                            Toast.makeText(ContributedItemPdfActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ContributedItemPDFActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
