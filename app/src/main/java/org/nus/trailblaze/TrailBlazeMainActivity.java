@@ -26,6 +26,7 @@ import org.nus.trailblaze.listeners.SignInFailureListener;
 import org.nus.trailblaze.listeners.SignInListener;
 
 import org.nus.trailblaze.dao.GoogleDao;
+import org.nus.trailblaze.views.RoleToggler;
 import org.nus.trailblaze.views.TrailBlazaFeedActivity;
 
 import java.util.Arrays;
@@ -81,12 +82,13 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         // if the user has already logged in send them strait to next activity.
         loggedInUser = fDao.getCurrent();
         if(loggedInUser != null){
-            Intent next = new Intent(this, TrailBlazaFeedActivity.class);
+            Intent next = new Intent(this, RoleToggler.class);
+            next.putExtra("user", this.fDao.fromFirebaseUser(loggedInUser));
             startActivity(next);
         }
 
         // initalize a callback to facebook button
-        fmanager.registerCallback(mCallback, new FacebookRegistryListener(this, this.fDao, TrailBlazaFeedActivity.class));
+        fmanager.registerCallback(mCallback, new FacebookRegistryListener(this, this.fDao, RoleToggler.class));
     }
 
     // Google click listener
@@ -118,7 +120,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
                 this.gDao
                         .createFirebaseGoogleAuth(account)
                         .addOnCompleteListener(this,
-                                new SignInListener(this, this.gDao, TrailBlazaFeedActivity.class))
+                                new SignInListener(this, this.gDao, RoleToggler.class))
                         .addOnFailureListener(this, new SignInFailureListener(this));
             }
             catch (ApiException e){
