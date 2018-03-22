@@ -13,10 +13,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.spy;
@@ -38,7 +40,7 @@ import org.powermock.api.mockito.PowerMockito;
 // https://groups.google.com/forum/#!topic/jacoco/wxXMr-vk8xU
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GoogleAuthProvider.class, FirebaseAuth.class, GoogleSignIn.class})
+@PrepareForTest({GoogleAuthProvider.class, FirebaseAuth.class, GoogleSignIn.class, FirebaseApp.class, FirebaseFirestore.class})
 public class TestGoogleDao {
 
     @Mock
@@ -49,6 +51,9 @@ public class TestGoogleDao {
 
     @Mock
     GoogleSignInOptions opts;
+
+    @Mock
+    FirebaseFirestore store;
 
     @Mock
     GoogleSignInClient client;
@@ -62,8 +67,11 @@ public class TestGoogleDao {
 
     @Test
     public void testFirebaseGooglePass(){
+        PowerMockito.mockStatic(FirebaseApp.class);
         PowerMockito.mockStatic(TextUtils.class);
         PowerMockito.mockStatic(GoogleAuthProvider.class);
+        PowerMockito.mockStatic(FirebaseFirestore.class);
+        PowerMockito.when(FirebaseFirestore.getInstance()).thenReturn(this.store);
         GoogleDao dao = new GoogleDao(this.auth);
         PowerMockito.when(account.getIdToken()).thenReturn("sometoken");
         PowerMockito.when(GoogleAuthProvider.getCredential("sometoken", null)).thenReturn(cred);
@@ -73,7 +81,10 @@ public class TestGoogleDao {
 
     @Test
     public void testGetSignInClient(){
+        PowerMockito.mockStatic(FirebaseApp.class);
         PowerMockito.mockStatic(GoogleSignIn.class);
+        PowerMockito.mockStatic(FirebaseFirestore.class);
+        PowerMockito.when(FirebaseFirestore.getInstance()).thenReturn(this.store);
         GoogleDao dao = new GoogleDao(this.auth);
         dao = spy(dao);
         doReturn(opts).when(dao).getOptions();
@@ -83,6 +94,9 @@ public class TestGoogleDao {
 
     @Test
     public void testGetCurrentUser(){
+        PowerMockito.mockStatic(FirebaseApp.class);
+        PowerMockito.mockStatic(FirebaseFirestore.class);
+        PowerMockito.when(FirebaseFirestore.getInstance()).thenReturn(this.store);
         GoogleDao dao = new GoogleDao(this.auth);
         FirebaseUser user = mock(FirebaseUser.class);
         when(this.auth.getCurrentUser()).thenReturn(user);

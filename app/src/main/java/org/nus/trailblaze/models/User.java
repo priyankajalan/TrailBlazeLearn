@@ -1,5 +1,9 @@
 package org.nus.trailblaze.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 /**
@@ -8,17 +12,26 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 
 
 @IgnoreExtraProperties
-public class User {
+public class User implements Parcelable {
+
+    public static final Parcelable.Creator CREATOR = new UserParcelCreator();
+
     private String id;
     private String name;
     private String email;
 
-    public User() {}
 
     public User(String id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public User(Parcel in){
+
+        this.id = in.readString();
+        this.name = in.readString();
+        this.email = in.readString();
     }
 
     public String getId() {
@@ -43,5 +56,17 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.id);
+        parcel.writeString(this.name);
+        parcel.writeString(this.email);
     }
 }

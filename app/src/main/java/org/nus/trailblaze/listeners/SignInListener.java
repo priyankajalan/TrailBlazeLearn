@@ -11,6 +11,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.nus.trailblaze.dao.AuthDao;
+import org.nus.trailblaze.models.User;
 
 /**
  * Created by plasmashadow on 3/21/18.
@@ -35,6 +36,9 @@ public class SignInListener implements OnCompleteListener<AuthResult> {
             Log.d("User", user.toString());
             Intent nextActivity = new Intent(this.activity, this.next);
             Log.d("redirect", "to next activity");
+            this.dao.saveUser(user);
+            User trailblazeUser = this.dao.fromFirebaseUser(user);
+            nextActivity.putExtra("user", trailblazeUser);
             this.activity.startActivity(nextActivity);
         } else {
             Log.d("[Alert]", "Signin failure");
