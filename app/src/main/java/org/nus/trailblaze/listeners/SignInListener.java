@@ -10,9 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.nus.trailblaze.TrailBlazaFeedActivity;
 import org.nus.trailblaze.dao.AuthDao;
-import org.nus.trailblaze.dao.GoogleDao;
 
 /**
  * Created by plasmashadow on 3/21/18.
