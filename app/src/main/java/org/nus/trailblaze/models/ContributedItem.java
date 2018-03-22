@@ -15,6 +15,8 @@ import java.util.List;
 public class ContributedItem extends Item {
     private String description;
 
+    public ContributedItem() {}
+
     public ContributedItem(String id, User user, Date createdDate, File file, String description) {
         super(id, user, createdDate, file);
         this.description = description;

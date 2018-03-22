@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Audio extends File{
+    public Audio() {}
     public Audio(String id, String name, String url, Float size, Date uploadDate, String mimeType) {
         super(id, name, url, size, uploadDate, mimeType);
     }

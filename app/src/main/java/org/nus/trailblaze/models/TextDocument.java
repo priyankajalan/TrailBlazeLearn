@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class TextDocument extends File {
+    public  TextDocument() {}
     public TextDocument(String id, String name, String url, Float size, Date uploadDate, String mimeType) {
         super(id, name, url, size, uploadDate, mimeType);
     }
