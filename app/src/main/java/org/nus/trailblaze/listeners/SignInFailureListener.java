@@ -1,23 +1,20 @@
 package org.nus.trailblaze.listeners;
 
-import android.util.Log;
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
- * Created by plasmashadow on 3/18/18.
+ * Created by plasmashadow on 3/21/18.
  */
 
-public class FirebaseGoogleSignupFailure implements OnFailureListener {
+public class SignInFailureListener implements OnFailureListener {
 
     private Activity activity;
 
-    public FirebaseGoogleSignupFailure(Activity act){
+    public SignInFailureListener(Activity act){
         this.activity = act;
     }
 

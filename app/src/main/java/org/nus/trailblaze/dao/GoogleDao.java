@@ -22,15 +22,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Created by plasmashadow on 3/18/18.
  */
 
-public class GoogleDao {
-    private FirebaseAuth auth;
-
-    public GoogleDao(FirebaseAuth auth) {
-        this.auth = auth;
-    }
+public class GoogleDao extends AuthDao {
 
     public GoogleDao(){
-        this.auth = FirebaseAuth.getInstance();
+        super();
+    }
+
+    public GoogleDao(FirebaseAuth auth){
+        super(auth);
     }
 
     public GoogleSignInOptions getOptions(){
@@ -48,10 +47,8 @@ public class GoogleDao {
 
     public Task<AuthResult> createFirebaseGoogleAuth(GoogleSignInAccount account){
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        return this.auth.signInWithCredential(credential);
+        return this.getAuth().signInWithCredential(credential);
     }
 
-    public FirebaseUser getCurrent(){
-        return this.auth.getCurrentUser();
-    }
+
 }
