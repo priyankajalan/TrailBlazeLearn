@@ -59,10 +59,9 @@
             android:textSize="18sp"
             android:layout_gravity="center_vertical"
             />
-        <Button
+        <com.facebook.login.widget.LoginButton
             android:layout_marginTop="20dp"
             android:text="Login with Facebook"
-            android:onClick="facebookClickListener"
             android:background="@drawable/btn_facebook"
             android:id="@+id/facebookBtn"
             android:textColor="@color/white"
