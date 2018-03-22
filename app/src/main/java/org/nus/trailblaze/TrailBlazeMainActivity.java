@@ -97,15 +97,16 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
 
     // facebook click iistener
     public void facebookClickListener(View view){
-        fmanager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        fmanager.logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
     }
 
     // update on google account selected.
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
+
         Log.d("act", "got the code");
         Log.d("mtg", String.valueOf(requestCode));
+        super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GOOGLE_SIGN){
             Log.d(String.valueOf(requestCode), data.toString());
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
