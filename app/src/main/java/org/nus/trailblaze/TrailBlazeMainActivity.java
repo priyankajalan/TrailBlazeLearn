@@ -6,7 +6,6 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.Button;
 import com.facebook.CallbackManager;
@@ -27,6 +26,7 @@ import org.nus.trailblaze.listeners.SignInFailureListener;
 import org.nus.trailblaze.listeners.SignInListener;
 
 import org.nus.trailblaze.dao.GoogleDao;
+import org.nus.trailblaze.views.TrailBlazaFeedActivity;
 
 import java.util.Arrays;
 

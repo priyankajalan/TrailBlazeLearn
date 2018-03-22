@@ -6,16 +6,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 
-import org.nus.trailblaze.TrailBlazaFeedActivity;
 import org.nus.trailblaze.dao.AuthDao;
-import org.nus.trailblaze.dao.GoogleDao;
 import org.nus.trailblaze.models.User;
 
 /**
