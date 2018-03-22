@@ -1,7 +1,7 @@
 package org.nus.trailblaze.listeners;
 
 import android.app.Activity;
-
+import android.util.Log;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -33,11 +33,11 @@ public class FacebookRegistryListener implements FacebookCallback<LoginResult> {
 
     @Override
     public void onCancel() {
-
+        Log.d("[Alert]", "Cancelled");
     }
 
     @Override
     public void onError(FacebookException error) {
-
+        Log.d("[Alert]", error.toString());
     }
 }

@@ -31,7 +31,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
 
 
     public static final int GOOGLE_SIGN = 9001;
-    public static final int FACEBOOK_SIGN = 9002;
+    public static final int FACEBOOK_SIGN = 64206;
 
     private GoogleSignInClient gClient;
     private GoogleDao gDao;
@@ -55,6 +55,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         fDao = new FacebookDao();
         gClient = gDao.getClient(this);
         Log.d("client id", getString(R.string.default_web_client_id));
+        loggedInUser = fDao.getCurrent();
         if(loggedInUser != null){
             Intent next = new Intent(this, TrailBlazaFeedActivity.class);
             startActivity(next);
