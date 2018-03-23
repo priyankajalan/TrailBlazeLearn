@@ -61,7 +61,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
 
         // invoking the constructor and initializing the layout
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trail_blaze_main);
+        setContentView(R.layout.add_learning_trail);
         FirebaseApp.initializeApp(this);
         ButterKnife.bind(this);
 
@@ -107,6 +107,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
 
         Log.d("act", "got the code");
+        Log.d("Google",data.toString());
         Log.d("mtg", String.valueOf(requestCode));
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GOOGLE_SIGN){

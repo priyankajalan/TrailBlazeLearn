@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.nus.trailblaze.R;
+
 public class TrailStationActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -17,14 +19,14 @@ public class TrailStationActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                case R.id.navigation_docs:
+                    mTextMessage.setText(R.string.title_docs);
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.navigation_audio:
+                    mTextMessage.setText(R.string.title_audio);
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                case R.id.navigation_threads:
+                    mTextMessage.setText(R.string.title_thread);
                     return true;
             }
             return false;

@@ -31,17 +31,19 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".TrailBlazeMainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".views.TrailBlazaFeedActivity"></activity>
+         <activity android:name=".views.TrailBlazaFeedActivity"></activity>
         <activity
             android:name=".views.RoleToggler"
-            android:label="@string/title_activity_role_toggler"></activity>
+            android:label="@string/title_activity_role_toggler" />
+        <activity
+            android:name=".views.TrailStationActivity"
+            android:label="@string/title_activity_trail_station">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

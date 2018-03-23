@@ -22,27 +22,27 @@
             android:layout_height="0dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_margin="30dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:src="@mipmap/trail_logo"
-            android:layout_marginTop="20dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"/>
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trail Blaze Learn"
-            android:textColor="#fff"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            />
+    <!--<LinearLayout-->
+        <!--android:layout_margin="30dp"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<ImageView-->
+            <!--android:src="@mipmap/trail_logo"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:layout_gravity="center_horizontal"/>-->
+        <!--<TextView-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Trail Blaze Learn"-->
+            <!--android:textColor="#fff"-->
+            <!--android:textSize="23sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--/>-->
     <LinearLayout
         android:background="#fff"
         android:layout_margin="10dp"
@@ -90,6 +90,6 @@
             android:layout_gravity="center_horizontal"
             android:progressDrawable="@drawable/circular_progress_bar"
             android:visibility="invisible"/>
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 </RelativeLayout>
