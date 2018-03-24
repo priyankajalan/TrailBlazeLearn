@@ -13,13 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-          <EditText
-              android:layout_marginTop="20dp"
-              android:hint="Enter Title"
-              android:id="@+id/trailTitle"
-              android:background="@drawable/edit_text"
-              android:layout_width="match_parent"
-              android:layout_height="50dp" />
             <EditText
                 android:hint="Enter Code"
                 android:id="@+id/trailCode"
@@ -35,16 +28,16 @@
                 android:textSize="20sp"
                 android:layout_gravity="center_horizontal"
                 />
+
             <TextView
-                android:layout_marginTop="10dp"
+                android:id="@+id/trailCodeDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/trailCodeDisplay"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:text="20180201-Semakau"
                 android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                />
+                android:textStyle="bold" />
             <Button
                 android:layout_marginTop="30dp"
                 android:text="Save"

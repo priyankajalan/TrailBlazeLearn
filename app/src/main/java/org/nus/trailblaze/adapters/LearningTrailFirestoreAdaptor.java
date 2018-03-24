@@ -1,6 +1,7 @@
 package org.nus.trailblaze.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,19 +32,22 @@ public class LearningTrailFirestoreAdaptor extends FirestoreRecyclerAdapter<Lear
     }
 
     public LearningTrailHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+
         Context context = viewGroup.getContext();
         int layoutIdForListItem = R.layout.learning_trail_row;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-        LearningTrailHolder viewHolder = new LearningTrailHolder(view, mOnClickListener);
+        LearningTrailHolder viewHolder = new LearningTrailHolder(context, view, mOnClickListener);
+
 
         return viewHolder;
     }
 
-    public void onBindViewHolder(LearningTrailHolder viewHolder, int index, LearningTrail model) {
+    public void onBindViewHolder(@NonNull final LearningTrailHolder viewHolder, int index, @NonNull LearningTrail model) {
         viewHolder.bind(model);
+
     }
 
     @Override

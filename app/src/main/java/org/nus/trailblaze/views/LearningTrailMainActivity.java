@@ -73,6 +73,7 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
     public void onListItemClick(int position) {
         LearningTrail item = (LearningTrail) adapter.getItem(position);
         Log.d("ACTIVITY", item.getName());
+        Log.d("[TextView]", String.valueOf(item.getId()));
 
         //temporary comment
         /*Intent myIntent;
@@ -93,4 +94,17 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
         // we override the transition
         overridePendingTransition(R.anim.activity_in, R.anim.activity_out);*/
     }
+
+//    private class OptionsButtonViewHolder extends RecyclerView.ViewHolder {
+//
+//        public TextView LearningTrailName;
+//        public Button buttonOptions;
+//
+//        public OptionsButtonViewHolder(View itemView) {
+//            super(itemView);
+//
+//            LearningTrailName = (TextView) itemView.findViewById(R.id.tvLearningTrailName);
+//            buttonOptions = (Button) itemView.findViewById(R.id.buttonOptions);
+//        }
+//    }
 }
