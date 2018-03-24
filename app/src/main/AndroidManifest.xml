@@ -32,16 +32,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".TrailBlazeMainActivity">
+
+        </activity>
+        <activity android:name=".views.TrailBlazaFeedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.TrailBlazaFeedActivity"></activity>
         <activity
             android:name=".views.RoleToggler"
             android:label="@string/title_activity_role_toggler"></activity>
+        <activity
+            android:name=".views.AudioPlayerActivity"></activity>
     </application>
 
 </manifest>
