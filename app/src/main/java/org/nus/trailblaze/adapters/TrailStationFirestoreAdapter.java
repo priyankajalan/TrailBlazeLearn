@@ -19,13 +19,13 @@ import org.nus.trailblaze.viewholders.TrailStationHolder;
  * Created by AswathyLeelakumari on 24/3/2018.
  */
 
-public class TrialStationFirestoreAdapter extends FirestoreRecyclerAdapter<TrailStation, TrailStationHolder> {
+public class TrailStationFirestoreAdapter extends FirestoreRecyclerAdapter<TrailStation, TrailStationHolder> {
 
     private static final String TAG = FeedFirestoreAdapter.class.getSimpleName();
     final private ListItemClickListener mOnClickListener;
 
-    public TrialStationFirestoreAdapter(FirestoreRecyclerOptions<TrailStation> response,
-                                ListItemClickListener listener) {
+    public TrailStationFirestoreAdapter(FirestoreRecyclerOptions<TrailStation> response,
+                                        ListItemClickListener listener) {
         super(response);
         mOnClickListener = listener;
     }
@@ -49,5 +49,5 @@ public class TrialStationFirestoreAdapter extends FirestoreRecyclerAdapter<Trail
     @Override
     public void onError(FirebaseFirestoreException e) {
         Log.e("error", e.getMessage());
-    } {
+    }
 }
