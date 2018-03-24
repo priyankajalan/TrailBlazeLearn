@@ -26,6 +26,8 @@ import org.nus.trailblaze.listeners.SignInFailureListener;
 import org.nus.trailblaze.listeners.SignInListener;
 
 import org.nus.trailblaze.dao.GoogleDao;
+import org.nus.trailblaze.views.ContributedItemDocActivity;
+import org.nus.trailblaze.views.ContributedItemImageActivity;
 import org.nus.trailblaze.views.RoleToggler;
 import org.nus.trailblaze.views.TrailBlazaFeedActivity;
 
@@ -52,6 +54,8 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     private CallbackManager mCallback;
     private FacebookDao fDao;
 
+    private  Button btn_create_ContributedItem_Doc;
+    private  Button btn_create_ContributedItem_Img;
     @BindView(R.id.progressBar)
     ProgressBar bar;
 
@@ -64,6 +68,22 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         setContentView(R.layout.trail_blaze_main);
         FirebaseApp.initializeApp(this);
         ButterKnife.bind(this);
+
+        btn_create_ContributedItem_Doc=(Button)findViewById(R.id.btn_create_ContributedItem_Doc);
+        btn_create_ContributedItem_Doc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ContributedItemDocActivity.class));
+            }
+        });
+
+        btn_create_ContributedItem_Img=(Button)findViewById(R.id.btn_create_ContributedItem_Img);
+        btn_create_ContributedItem_Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ContributedItemImageActivity.class));
+            }
+        });
 
         // CallbackManager to initalize the Facebook button
         fmanager = LoginManager.getInstance();
