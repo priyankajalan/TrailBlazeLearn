@@ -1,5 +1,8 @@
 package org.nus.trailblaze.dao;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -31,6 +34,10 @@ public class UserDao {
 
     public Task<Void> storeUser(User user){
         return this.collectionRef.document(user.getId()).set(user);
+    }
+
+    public Task<DocumentSnapshot> getUser(FirebaseUser user){
+        return this.collectionRef.document(user.getUid()).get();
     }
 
 }
