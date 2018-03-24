@@ -117,7 +117,6 @@ public class ContributedItemDocActivity extends AppCompatActivity {
             filePath = data.getData();
             mimeType=getContentResolver().getType(filePath);;
 
-
         }
     }
 
@@ -160,15 +159,5 @@ public class ContributedItemDocActivity extends AppCompatActivity {
         }
     }
 
-    private String getMimeType(String url)
-    {
-        String type=null;
-        String extension= MimeTypeMap.getFileExtensionFromUrl(url);
-        if(extension!=null)
-        {
-            type=MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-        }
-        return  type;
-    }
 }
 
