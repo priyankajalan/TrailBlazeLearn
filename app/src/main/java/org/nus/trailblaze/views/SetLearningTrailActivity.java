@@ -49,7 +49,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
     @Override
     public void onClick (View view) {
         //todo: bind date and trailcode
-        //todo: in edit mode, need to pass document value
+        //todo: in edit mode, need to set documentID instead of create random value
         db.collection("trails").document().set(noteDataMap)
 
         .addOnSuccessListener(new OnSuccessListener< Void >() {

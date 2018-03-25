@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.nus.trailblaze.R;
@@ -24,6 +25,8 @@ public class LearningTrailFirestoreAdaptor extends FirestoreRecyclerAdapter<Lear
 
     private static final String TAG = FeedFirestoreAdapter.class.getSimpleName();
     final private ListItemClickListener mOnClickListener;
+    private View itemView;
+    private DocumentSnapshot docSnapshot;
 
     public LearningTrailFirestoreAdaptor(FirestoreRecyclerOptions<LearningTrail> response,
                                 ListItemClickListener listener) {
@@ -38,15 +41,18 @@ public class LearningTrailFirestoreAdaptor extends FirestoreRecyclerAdapter<Lear
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-        LearningTrailHolder viewHolder = new LearningTrailHolder(context, view, mOnClickListener);
-
+        itemView = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
+        LearningTrailHolder viewHolder = new LearningTrailHolder(context, itemView, mOnClickListener, docSnapshot);
 
         return viewHolder;
+
     }
 
     public void onBindViewHolder(@NonNull final LearningTrailHolder viewHolder, int index, @NonNull LearningTrail model) {
+
         viewHolder.bind(model);
+
+        docSnapshot = getSnapshots().getSnapshot(viewHolder.getAdapterPosition());
 
     }
 
