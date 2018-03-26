@@ -2,8 +2,10 @@ package org.nus.trailblaze.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +44,7 @@ public class ContributedItemDocActivity extends AppCompatActivity {
     private EditText editText_Description;
     private String mimeType;
 
+
     FirebaseStorage storage;
     StorageReference storageReference;
     FirebaseFirestore db;
@@ -62,13 +65,11 @@ public class ContributedItemDocActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         db= FirebaseFirestore.getInstance();// .getInstance();
 
-
-
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseFile();
-                ci= new ContributedItem("ContributedItem_2",p,new Date(),td,editText_Description.getText().toString());
+                ci= new ContributedItem("ContributedItem_1",p,new Date(),td,editText_Description.getText().toString());
             }
         });
 
@@ -76,7 +77,6 @@ public class ContributedItemDocActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SaveContributedItemDoc();
-
             }
         });
 
@@ -117,6 +117,12 @@ public class ContributedItemDocActivity extends AppCompatActivity {
             filePath = data.getData();
             mimeType=getContentResolver().getType(filePath);;
 
+            Cursor returnCursor = getContentResolver().query(filePath, null, null, null, null);
+            int name_index=returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            int size_Index = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+            returnCursor.moveToFirst();
+            td.setName( returnCursor.getString (name_index));
+            td.setSize( returnCursor.getFloat(size_Index) );
         }
     }
 

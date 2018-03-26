@@ -47,6 +47,9 @@
             android:label="@string/title_activity_role_toggler" />
         <activity android:name=".views.AudioPlayerActivity" />
         <activity android:name=".views.ContributedItemImageActivity"></activity>
+        <activity android:name=".views.ContributedItemDocActivity"></activity>
+        <activity android:name=".views.ContributedItemMediaActivity"></activity>
+
     </application>
 
 </manifest>

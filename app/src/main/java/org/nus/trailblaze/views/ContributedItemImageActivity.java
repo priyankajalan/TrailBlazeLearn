@@ -2,9 +2,11 @@ package org.nus.trailblaze.views;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,6 +95,13 @@ public class ContributedItemImageActivity extends AppCompatActivity {
         {
             filePath = data.getData();
             mimeType=getContentResolver().getType(filePath);;
+            Cursor returnCursor = getContentResolver().query(filePath, null, null, null, null);
+            int name_index=returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            int size_Index = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+            returnCursor.moveToFirst();
+            po.setName( returnCursor.getString (name_index));
+            po.setSize( returnCursor.getFloat(size_Index) );
+
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imageView.setImageBitmap(bitmap);
