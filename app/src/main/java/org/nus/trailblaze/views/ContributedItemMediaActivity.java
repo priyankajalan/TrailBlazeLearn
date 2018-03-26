@@ -1,3 +1,7 @@
+/**
+ * Created by Liu Cao on 3/26/2018.
+ */
+
 package org.nus.trailblaze.views;
 
 import android.app.ProgressDialog;
