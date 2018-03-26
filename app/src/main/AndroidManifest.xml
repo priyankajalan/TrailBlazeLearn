@@ -38,6 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.SetLearningTrailActivity" />
+        <activity android:name=".views.LearningTrailMainActivity" />
         <activity android:name=".views.ParticipantJoin" />
         <activity android:name=".views.TrailBlazaFeedActivity" />
         <activity
