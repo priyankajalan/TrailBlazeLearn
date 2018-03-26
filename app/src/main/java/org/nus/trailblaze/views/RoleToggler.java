@@ -15,6 +15,7 @@ public class RoleToggler extends Activity {
     private static final Class trainerView = ViewTrailStationActivity.class;
     private static final Class participantView = TrailBlazaFeedActivity.class;
 
+
     private User user;
 
     @Override
