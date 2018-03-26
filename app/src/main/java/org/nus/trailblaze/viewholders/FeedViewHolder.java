@@ -61,8 +61,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder
             case "text/plain":
                 iconId = R.drawable.ic_text_format_black_24dp;
                 break;
-            case "audio/mpeg3":
-                iconId = R.drawable.ic_play_circle_filled_black_24dp;
+            case "audio/mpeg":
+                iconId = R.drawable.ic_audiotrack_black_24dp;
                 break;
         }
 

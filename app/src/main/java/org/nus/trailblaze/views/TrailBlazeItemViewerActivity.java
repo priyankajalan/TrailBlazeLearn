@@ -5,22 +5,26 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.nus.trailblaze.R;
-import org.nus.trailblaze.tasks.AsyncTaskLoadImage;
 import org.nus.trailblaze.tasks.AsyncTaskReadTextFile;
 import org.nus.trailblaze.models.ContributedItem;
 
@@ -33,7 +37,6 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
     private TextView tv_text_content;
     private ImageView ivItemImage;
     private VideoView vvItemVideo;
-    private WebView wvPdfViewer;
     private PDFView pdfView;
 
     @Override
@@ -41,11 +44,8 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail_blaze_item_viewer);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tvDescription = (TextView) findViewById(R.id.tv_item_description);
         tv_text_content = (TextView) findViewById(R.id.tv_text_content);
         ivItemImage = (ImageView) findViewById(R.id.iv_item_image);
         vvItemVideo = (VideoView)findViewById(R.id.vv_item_video);
@@ -55,7 +55,6 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
         ContributedItem item = (ContributedItem) getIntent().getParcelableExtra("Item");
         renderContent(item);
 
-        tvDescription.setText(item.getDescription() + " "+ item.getFile().getMimeType());
     }
 
     @Override
@@ -77,6 +76,8 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
     private void renderContent(ContributedItem item)
     {
         String fileUrl = item.getFile().getUrl();
+        String fileName = item.getFile().getName();
+
         switch (item.getFile().getMimeType())
         {
             case "image/png":
@@ -89,23 +90,12 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
                 renderVideo(vvItemVideo, fileUrl);
                 break;
             case "application/pdf":
-                displayPdf(wvPdfViewer, fileUrl);
+                displayPdf(pdfView, fileName);
                 break;
             case "text/plain":
                 displayTextFile(tv_text_content, fileUrl);
                 break;
-            case "audio/mpeg3":
-                playAudio(fileUrl);
-                break;
         }
-
-        //
-
-        //playAudio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
-
-        //displayTextFile(tv_text_content, "http://txt2html.sourceforge.net/sample.txt");
-
-       // displayPdf(wvPdfViewer, "");
     }
 
     private void renderWebImage(ImageView imageView, String imageUrl)
@@ -114,7 +104,13 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
                 "Downloading image...", true);
         progressDialog.setCancelable(true);
 
-        new AsyncTaskLoadImage(imageView, progressDialog).execute(imageUrl);
+        // Load the image using Glide
+        Glide.with(this)
+                .load(imageUrl)
+                .into(imageView);
+        imageView.setVisibility(View.VISIBLE);
+        progressDialog.dismiss();
+       // new AsyncTaskLoadImage(imageView, progressDialog).execute(imageUrl);
     }
 
     private void displayTextFile(TextView textView, String fileUrl)
@@ -127,16 +123,42 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
         new AsyncTaskReadTextFile(textView, progressDialog).execute(fileUrl);
     }
 
-    private void displayPdf(WebView webView, String pdfUrl)
+    private void displayPdf(final PDFView pdfView, String fileName)
     {
-       /* progressDialog = ProgressDialog.show(this, "",
+        Log.d("PDF", fileName);
+        progressDialog = ProgressDialog.show(this, "",
                 "Loading...", true);
-        progressDialog.setCancelable(true);*/
+        progressDialog.setCancelable(true);
 
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://trailblaze-0007.appspot.com")
+                                            .child("document/" + fileName);
 
-        pdfView.fromAsset(pdfUrl).load();
+        final long ONE_MEGABYTE = 1024 * 1024;
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
 
-        Log.d("PDF", pdfUrl);
+                pdfView.fromBytes(bytes)
+                        .onLoad(new OnLoadCompleteListener() {
+                            @Override
+                            public void loadComplete(int nbPages) {
+                                progressDialog.dismiss();
+                            }
+                        })
+                        .load();
+
+                pdfView.setVisibility(View.VISIBLE);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
     }
 
     private void renderVideo(VideoView videoView, String videoUrl)
@@ -170,32 +192,5 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    private void playAudio(String audioUrl) {
-
-//create new mediaplayer
-        MediaPlayer mediaPlayer = new MediaPlayer();
-
-//set audio file path
-        try {
-            mediaPlayer.setDataSource(audioUrl);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//Prepare mediaplayer
-        try {
-            mediaPlayer.prepare();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-//Start mediaplayer
-        mediaPlayer.start();;
     }
 }
