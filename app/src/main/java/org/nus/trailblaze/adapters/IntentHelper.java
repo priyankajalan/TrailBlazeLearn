@@ -12,22 +12,10 @@ public class IntentHelper {
     public static Intent SetIntentType(String type,Intent intent) {
         String[] mimeTypes=getMimeTypes(type);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        intent.setType(mimeTypes[0]);
+        if (mimeTypes.length > 0)
         {
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0)
-            {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        }
-        else
-        {
-            String mimeTypesStr = "";
-            for (String mimeType : mimeTypes)
-            {
-                mimeTypesStr += mimeType + "|";
-            }
-            intent.setType(mimeTypesStr.substring(0, mimeTypesStr.length() - 1));
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         }
         return  intent;
     }
