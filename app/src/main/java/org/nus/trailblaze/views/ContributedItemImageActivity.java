@@ -29,7 +29,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.adapters.FileHelper;
 import org.nus.trailblaze.adapters.IntentHelper;
+import org.nus.trailblaze.dao.ContributedItemDao;
 import org.nus.trailblaze.models.ContributedItem;
 import org.nus.trailblaze.models.Participant;
 import org.nus.trailblaze.models.Photo;
@@ -40,24 +42,14 @@ import java.util.Date;
 import java.util.UUID;
 
 public class ContributedItemImageActivity extends AppCompatActivity {
-
     private Button btnChooseImage, btnSaveImage;
     private ImageView imageView;
     private  EditText editText_Ci_ImageDesc;
-
     private Uri filePath;
-    //Firebase
-    private String mimeType;
-
-    FirebaseStorage storage;
-    StorageReference storageReference;
-    FirebaseFirestore db;
     Participant p= new Participant("PT1","Participant (Green)","Green@test.com");
     Photo po= new Photo("Photo1","My Photo","",1.0f,new Date(),"" );
     ContributedItem ci;
-
     private final int PICK_IMAGE_REQUEST = 71;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +59,6 @@ public class ContributedItemImageActivity extends AppCompatActivity {
         btnSaveImage = (Button) findViewById(R.id.btnSaveImage);
          imageView = (ImageView) findViewById(R.id.imgView);
          editText_Ci_ImageDesc=(EditText)findViewById(R.id.editText_Ci_ImageDesc);
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-        db= FirebaseFirestore.getInstance();
 
         btnChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,11 +67,11 @@ public class ContributedItemImageActivity extends AppCompatActivity {
                 ci= new ContributedItem("ContributedItem_3",p,new Date(),po,editText_Ci_ImageDesc.getText().toString());
             }
         });
-
         btnSaveImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveImage();
+                ContributedItemDao ciDao= new ContributedItemDao(ContributedItemImageActivity.this,ci);
+                ciDao.SaveContributedItem(filePath,"image");
             }
         });
     }
@@ -100,13 +89,10 @@ public class ContributedItemImageActivity extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
-            mimeType=getContentResolver().getType(filePath);;
-            Cursor returnCursor = getContentResolver().query(filePath, null, null, null, null);
-            int name_index=returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            int size_Index = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-            returnCursor.moveToFirst();
-            po.setName( returnCursor.getString (name_index));
-            po.setSize( returnCursor.getFloat(size_Index) );
+            po.setMimeType(getContentResolver().getType(filePath));
+            Cursor cursor = getContentResolver().query(filePath, null, null, null, null);
+            FileHelper helper= new FileHelper(filePath,cursor);
+            helper.SetFileProperty(po);
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -118,44 +104,4 @@ public class ContributedItemImageActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void saveImage() {
-
-        if(filePath != null)
-        {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            StorageReference ref = storageReference.child("images/"+ ci.getFile().getName().toString());
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            ci.getFile().setUrl(downloadUrl.toString());
-                            ci.getFile().setMimeType(mimeType);
-                            db.collection("contributed_items").document(ci.getId()).set(ci);
-                            progressDialog.dismiss();
-                            Toast.makeText(ContributedItemImageActivity.this, "Saved Successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(ContributedItemImageActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Saved "+(int)progress+"%");
-                        }
-                    });
-        }
-    }
-
 }
