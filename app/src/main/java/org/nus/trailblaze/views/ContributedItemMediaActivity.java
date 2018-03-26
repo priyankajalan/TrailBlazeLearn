@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.adapters.IntentHelper;
 import org.nus.trailblaze.models.Audio;
 import org.nus.trailblaze.models.ContributedItem;
 import org.nus.trailblaze.models.Participant;
@@ -64,15 +65,14 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        db= FirebaseFirestore.getInstance();// .getInstance();
-
+        db= FirebaseFirestore.getInstance();
 
 
         btnChooseAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseFile();
-                ci= new ContributedItem("ContributedItem_4",p,new Date(),ao,editText_Title.getText().toString());
+                ci= new ContributedItem("ContributedItem_5",p,new Date(),ao,editText_Title.getText().toString());
             }
         });
 
@@ -84,32 +84,13 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void chooseFile() {
 
-        String[] mimeTypes = { "audio/*", "video/mp4"};
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0)
-            {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        } else
-        {
-            String mimeTypesStr = "";
-            for (String mimeType : mimeTypes) {
-                mimeTypesStr += mimeType + "|";
-            }
-            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
-        }
-
+        Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
+        intent=  IntentHelper.SetIntentType("audio/video",intent);
         startActivityForResult(Intent.createChooser(intent,"Choose Audio/Video"), PICK_DOC_REQUEST);
-
     }
 
     @Override

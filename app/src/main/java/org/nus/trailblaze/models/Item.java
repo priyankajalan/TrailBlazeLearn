@@ -15,7 +15,12 @@ public class Item implements Parcelable {
     private File file;
 
     public Item(){}
-
+    public Item(String id, User user)
+    {
+        this.id = id;
+        this.user = user;
+        this.createdDate = new Date();
+    }
     public Item(String id, User user, Date createdDate, File file) {
         this.id = id;
         this.user = user;

@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.adapters.IntentHelper;
 import org.nus.trailblaze.models.ContributedItem;
 import org.nus.trailblaze.models.File;
 import org.nus.trailblaze.models.Participant;
@@ -38,20 +39,18 @@ import org.nus.trailblaze.models.User;
 import java.util.Date;
 import java.util.UUID;
 
-public class ContributedItemDocActivity extends AppCompatActivity {
+public class ContributedItemDocActivity extends AppCompatActivity  {
     private Button btnUpload;
     private ImageButton btnChoose;
-
     private Uri filePath;
-
     private final int PICK_DOC_REQUEST = 71;
     private EditText editText_Description;
     private String mimeType;
 
-
     FirebaseStorage storage;
     StorageReference storageReference;
     FirebaseFirestore db;
+    //Get Participant from context
     Participant p= new Participant("PT1","Participant (Green)","Green@test.com");
     TextDocument td= new TextDocument("Doc1","Document (PDF/Text)","Test@Url",1.0f,new Date(),"PDF/TXT" );
     ContributedItem ci;
@@ -67,7 +66,7 @@ public class ContributedItemDocActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        db= FirebaseFirestore.getInstance();// .getInstance();
+        db= FirebaseFirestore.getInstance();
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,34 +82,14 @@ public class ContributedItemDocActivity extends AppCompatActivity {
                 SaveContributedItemDoc();
             }
         });
-
-
     }
 
-    private void chooseFile() {
-
-    String[] mimeTypes = { "text/plain", "application/pdf"};
-
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-    intent.addCategory(Intent.CATEGORY_OPENABLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0)
-            {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        } else
-        {
-            String mimeTypesStr = "";
-            for (String mimeType : mimeTypes) {
-                mimeTypesStr += mimeType + "|";
-            }
-            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
-        }
-
-    startActivityForResult(Intent.createChooser(intent,"Choose File"), PICK_DOC_REQUEST);
-
-}
+    private void chooseFile()
+    {
+        Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
+        intent= IntentHelper.SetIntentType("document",intent);
+        startActivityForResult(Intent.createChooser(intent,"Choose File"), PICK_DOC_REQUEST);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

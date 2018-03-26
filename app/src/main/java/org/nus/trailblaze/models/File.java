@@ -17,6 +17,11 @@ public class File implements Parcelable {
     private String mimeType;
 
     public File() {}
+    public File(String id,String name)
+    {
+        this.id=id;
+        this.name=name;
+    }
 
     public File(String id, String name, String url, Float size, Date uploadDate, String mimeType) {
         this.id = id;

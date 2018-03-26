@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.adapters.IntentHelper;
 import org.nus.trailblaze.models.ContributedItem;
 import org.nus.trailblaze.models.Participant;
 import org.nus.trailblaze.models.Photo;
@@ -85,12 +86,13 @@ public class ContributedItemImageActivity extends AppCompatActivity {
             }
         });
     }
-    private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+    private void chooseImage()
+    {
+        Intent intent= new Intent(Intent.ACTION_GET_CONTENT);
+        intent=  IntentHelper.SetIntentType("image",intent);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
