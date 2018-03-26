@@ -47,4 +47,9 @@ public class AuthDao {
     public Task<DocumentSnapshot> getUser(FirebaseUser user){
         return this.dao.getUser(user.getUid());
     }
+
+    public void signOut(){
+        this.auth.signOut();
+    }
+
 }
