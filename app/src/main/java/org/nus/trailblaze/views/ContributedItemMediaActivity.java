@@ -138,7 +138,7 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Saving...");
             progressDialog.show();
-            StorageReference ref = storageReference.child("audio/"+ ci.getFile().getId().toString());
+            StorageReference ref = storageReference.child("audio/"+ ci.getFile().getName().toString());
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

@@ -125,7 +125,7 @@ public class ContributedItemImageActivity extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference ref = storageReference.child("images/"+ ci.getId().toString());
+            StorageReference ref = storageReference.child("images/"+ ci.getFile().getName().toString());
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
