@@ -9,13 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,10 +31,8 @@ import org.nus.trailblaze.listeners.SignInFailureListener;
 import org.nus.trailblaze.listeners.SignInListener;
 
 import org.nus.trailblaze.dao.GoogleDao;
-import org.nus.trailblaze.views.LearningTrailListActivity;
+import org.nus.trailblaze.views.LearningTrailMainActivity;
 import org.nus.trailblaze.views.RoleToggler;
-import org.nus.trailblaze.views.SetupActivity;
-import org.nus.trailblaze.views.TrailBlazaFeedActivity;
 
 import java.util.Arrays;
 
@@ -132,7 +128,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     }
 
     private void sendToLearningTrailList(){
-        Intent learningTrailListIntent = new Intent(TrailBlazeMainActivity.this, LearningTrailListActivity.class);
+        Intent learningTrailListIntent = new Intent(TrailBlazeMainActivity.this, LearningTrailMainActivity.class);
         startActivity(learningTrailListIntent);
         finish();
     }
