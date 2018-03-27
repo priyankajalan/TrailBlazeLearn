@@ -35,8 +35,12 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
     private EditText et;
     private Button btn;
     private String ymd;
-    private static final String NAME = "name";
+    public static final String NAME = "name";
     private static final String COLLECTION = "trails";
+    public static String DOCUMENTID;
+    public static String NAMEVALUE;
+    private String documentID;
+    private String nameID;
 
     Map<String, Object> trailDataMap = new HashMap<>();
 
@@ -46,10 +50,23 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_learning_trail);
+
         titlecode = findViewById(R.id.trailCodeDisplay);
         btn = (Button) findViewById(R.id.newTrail);
         btn.setOnClickListener(this);
         et = (EditText) findViewById(R.id.trailCode);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        nameID = bundle.getString(NAMEVALUE);
+        Log.d("[ID-n]", String.valueOf(nameID));
+        documentID = bundle.getString(DOCUMENTID);
+        Log.d("[ID-d]", String.valueOf(documentID));
+
+        if (nameID != null) {
+            nameID = nameID.substring(nameID.lastIndexOf("-") + 1);
+            et.setText(nameID);
+        }
 
         Date date = new Date();
         String day          = (String) DateFormat.format("dd", date);
@@ -63,7 +80,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                trailcode = titlecode.getText().toString();
+
             }
 
             @Override
@@ -89,7 +106,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
             Toast.makeText(SetLearningTrailActivity.this, "Please enter a Trail Code",
                     Toast.LENGTH_SHORT).show();
         }
-        else {
+        else if (documentID == null) {
             db.collection(COLLECTION).document().set(trailDataMap)
 
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -107,7 +124,27 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(SetLearningTrailActivity.this, "ERROR" + e.toString(),
                                     Toast.LENGTH_SHORT).show();
-                            Log.d("TAG", e.toString());
+                        }
+                    });
+        }
+        else {
+            db.collection(COLLECTION).document(documentID).set(trailDataMap)
+
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(SetLearningTrailActivity.this, "Learning Trail Saved",
+                                    Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(getApplicationContext(), LearningTrailMainActivity.class);
+                            startActivity(i);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SetLearningTrailActivity.this, "ERROR" + e.toString(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
         }
