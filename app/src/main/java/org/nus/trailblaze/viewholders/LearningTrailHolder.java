@@ -28,15 +28,13 @@ import static android.content.ContentValues.TAG;
  * Created by kooc on 3/20/2018.
  */
 
-public class LearningTrailHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class LearningTrailHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener {
 
-    public static View itemView;
     private TextView LearningTrailName;
     private Button btnOptions;
-    private RecyclerView learningTrailView;
     private ListItemClickListener listener;
     private Context context;
-    private LearningTrailFirestoreAdaptor adaptor;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -44,10 +42,11 @@ public class LearningTrailHolder extends RecyclerView.ViewHolder implements View
         super(itemView);
         this.listener = listener;
         this.context = context;
-        this.learningTrailView = (RecyclerView) itemView.findViewById(R.id.rvLearningTrail);
+
+        itemView.setOnClickListener(this);
+
         this.LearningTrailName = (TextView) itemView.findViewById(R.id.tvLearningTrailName);
         this.btnOptions = (Button) itemView.findViewById(R.id.btnOptions);
-
 
         this.btnOptions.setOnClickListener(new View.OnClickListener(){
 

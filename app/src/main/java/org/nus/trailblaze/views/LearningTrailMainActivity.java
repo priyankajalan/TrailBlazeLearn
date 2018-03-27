@@ -11,18 +11,12 @@ import android.widget.Button;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import org.nus.trailblaze.R;
 import org.nus.trailblaze.adapters.LearningTrailFirestoreAdaptor;
 import org.nus.trailblaze.listeners.ListItemClickListener;
-import org.nus.trailblaze.listeners.SignInFailureListener;
-import org.nus.trailblaze.listeners.SignInListener;
 import org.nus.trailblaze.models.LearningTrail;
 
 public class LearningTrailMainActivity extends Activity implements ListItemClickListener {
@@ -44,7 +38,6 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
         mRecyclerView = (RecyclerView) findViewById(R.id.rvLearningTrail);
         btnAddLearningTrail = (Button) findViewById(R.id.btnAddLearningTrail);
         btnAddLearningTrail.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LearningTrailMainActivity.this, SetLearningTrailActivity.class);
@@ -96,37 +89,7 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
         Log.d("ACTIVITY", item.getName());
         Log.d("[TextView]", String.valueOf(item.getId()));
 
-        //temporary comment
-        /*Intent myIntent;
+        //Go to Trail Stations list
 
-        if(item.getFile().getMimeType().indexOf("audio") > -1){
-            myIntent = new Intent(TrailBlazaFeedActivity.this,
-                    AudioPlayerActivity.class);
-
-        }
-        else{
-            myIntent = new Intent(TrailBlazaFeedActivity.this,
-                    TrailBlazeItemViewerActivity.class);
-
-        }
-        myIntent.putExtra("Item", item);
-        startActivity(myIntent);
-        // Following the documentation, right after starting the activity
-        // we override the transition
-        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);*/
     }
-
-//    private class OptionsButtonViewHolder extends RecyclerView.ViewHolder {
-//
-//        public TextView LearningTrailName;
-//        public Button buttonOptions;
-//
-//        public OptionsButtonViewHolder(View itemView) {
-//            super(itemView);
-//
-//            LearningTrailName = (TextView) itemView.findViewById(R.id.tvLearningTrailName);
-//            buttonOptions = (Button) itemView.findViewById(R.id.buttonOptions);
-//        }
-//    }
-
 }
