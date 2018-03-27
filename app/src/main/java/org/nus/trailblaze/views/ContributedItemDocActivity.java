@@ -13,11 +13,13 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +46,7 @@ public class ContributedItemDocActivity extends AppCompatActivity  {
     private Uri filePath;
     private final int PICK_DOC_REQUEST = 71;
     private EditText editText_Description;
+    private TextView textView_Comment;
     //Get Participant from context
     Participant p= new Participant("PT1","Participant (Green)","Green@test.com");
     TextDocument td= new TextDocument("Doc1","Document (PDF/Text)","Test@Url",1.0f,new Date(),"PDF/TXT" );
@@ -53,10 +56,15 @@ public class ContributedItemDocActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contributed_item_doc);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        //Set toolbar text as TrailStation Id
         //Initialize Views
         btnChoose = (ImageButton) findViewById(R.id.btnChoose);
         btnUpload = (Button) findViewById(R.id.btnUpload);
         editText_Description=(EditText)findViewById(R.id.editText_Description);
+        textView_Comment=(TextView)findViewById(R.id.textView_Comment);
+
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +78,8 @@ public class ContributedItemDocActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 ContributedItemDao ciDao= new ContributedItemDao(ContributedItemDocActivity.this,ci);
                 ciDao.SaveContributedItem(filePath,"document");
+                //Return trail station page
+                //startActivity(new Intent(getApplicationContext(), TrailStationActivity.class));
             }
         });
     }
@@ -91,6 +101,7 @@ public class ContributedItemDocActivity extends AppCompatActivity  {
             Cursor cursor = getContentResolver().query(filePath, null, null, null, null);
             FileHelper helper= new FileHelper(filePath,cursor);
             helper.SetFileProperty(td);
+            textView_Comment.setText(td.getName());
         }
     }
 

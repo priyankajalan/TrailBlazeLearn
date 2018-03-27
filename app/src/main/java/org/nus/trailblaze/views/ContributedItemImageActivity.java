@@ -14,9 +14,11 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,9 +44,10 @@ import java.util.Date;
 import java.util.UUID;
 
 public class ContributedItemImageActivity extends AppCompatActivity {
-    private Button btnChooseImage, btnSaveImage;
+    private Button  btnSave;
+    private ImageButton btnChoose;
     private ImageView imageView;
-    private  EditText editText_Ci_ImageDesc;
+    private  EditText editText_Desc;
     private Uri filePath;
     Participant p= new Participant("PT1","Participant (Green)","Green@test.com");
     Photo po= new Photo("Photo1","My Photo","",1.0f,new Date(),"" );
@@ -54,24 +57,27 @@ public class ContributedItemImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contributed_item_image);
-
-         btnChooseImage = (Button) findViewById(R.id.btnChooseImage);
-        btnSaveImage = (Button) findViewById(R.id.btnSaveImage);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+         btnChoose = (ImageButton) findViewById(R.id.btnChoose);
+         btnSave = (Button) findViewById(R.id.btnSave);
          imageView = (ImageView) findViewById(R.id.imgView);
-         editText_Ci_ImageDesc=(EditText)findViewById(R.id.editText_Ci_ImageDesc);
+         editText_Desc=(EditText)findViewById(R.id.editText_Desc);
 
-        btnChooseImage.setOnClickListener(new View.OnClickListener() {
+        btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseImage();
-                ci= new ContributedItem("ContributedItem_3",p,new Date(),po,editText_Ci_ImageDesc.getText().toString());
+                ci= new ContributedItem("ContributedItem_3",p,new Date(),po,editText_Desc.getText().toString());
             }
         });
-        btnSaveImage.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContributedItemDao ciDao= new ContributedItemDao(ContributedItemImageActivity.this,ci);
                 ciDao.SaveContributedItem(filePath,"image");
+                //Return trail station page
+                //startActivity(new Intent(getApplicationContext(), TrailStationActivity.class));
             }
         });
     }

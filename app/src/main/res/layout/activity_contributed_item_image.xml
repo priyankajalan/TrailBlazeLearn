@@ -1,65 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:padding="16dp"
 tools:context="org.nus.trailblaze.views.ContributedItemImageActivity">
+<android.support.v7.widget.Toolbar
+    android:id="@+id/my_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@drawable/background_gradient"
+    android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <LinearLayout
-        android:id="@+id/layout_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal"
-        android:weightSum="2">
+    <TextView
+        android:id="@+id/textView_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="22dp"
+        android:text="Add Photo"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btnChooseImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Choose Image" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_Image"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@+id/layout_button"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/layout_button"
-            android:layout_marginStart="11dp" />
-
-
-    </LinearLayout>
 
     <EditText
-        android:id="@+id/editText_Ci_ImageDesc"
+        android:id="@+id/editText_Desc"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView_Title"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="26dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Description" />
+
+    <ImageButton
+        android:id="@+id/btnChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnSaveImage"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="24dp"
-        android:text="Contributed Item Name" />
+        android:layout_below="@+id/editText_Desc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:padding="0dp"
+        android:paddingBottom="2dp"
+        android:paddingEnd="2dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        app:srcCompat="@drawable/camera" />
 
-    <Button
-        android:id="@+id/btnSaveImage"
+    <ImageView
+        android:id="@+id/imgView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSave"
+        android:layout_below="@+id/btnChoose"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:padding="1dp" />
 
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:text="Save" />
+<Button
+    android:id="@+id/btnSave"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:background="@drawable/background_gradient"
+    android:text="Save" />
 
 
 </RelativeLayout>
+
+
+
+
+

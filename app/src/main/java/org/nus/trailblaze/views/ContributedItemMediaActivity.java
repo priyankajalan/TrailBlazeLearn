@@ -13,10 +13,12 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,7 +45,8 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
     private ImageButton btnChooseAudio;
     private Uri filePath;
     private final int PICK_DOC_REQUEST = 71;
-    private EditText editText_Title;
+    private EditText editText_Desc;
+    private TextView textView_Comment;
 
     Participant p= new Participant("PT1","Participant (Green)","Green@test.com");
     Audio ao= new Audio("Audio1","My Audio","",1.0f,new Date(),"P" );
@@ -53,16 +56,18 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contributed_item_media);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         //Initialize Views
         btnChooseAudio = (ImageButton) findViewById(R.id.btnChooseAudio);
         btnUploadAudio = (Button) findViewById(R.id.btnUploadAudio);
-        editText_Title=(EditText)findViewById(R.id.editText_Title);
-
+        editText_Desc=(EditText)findViewById(R.id.editText_Desc);
+        textView_Comment=(TextView)findViewById(R.id.textView_Comment);
         btnChooseAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseFile();
-                ci= new ContributedItem("ContributedItem_5",p,new Date(),ao,editText_Title.getText().toString());
+                ci= new ContributedItem("ContributedItem_5",p,new Date(),ao,editText_Desc.getText().toString());
             }
         });
 
@@ -71,6 +76,8 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ContributedItemDao ciDao= new ContributedItemDao(ContributedItemMediaActivity.this,ci);
                 ciDao.SaveContributedItem(filePath,"audio");
+                //Return trail station page
+                //startActivity(new Intent(getApplicationContext(), TrailStationActivity.class));
             }
         });
     }
@@ -91,6 +98,7 @@ public class ContributedItemMediaActivity extends AppCompatActivity {
             Cursor cursor = getContentResolver().query(filePath, null, null, null, null);
             FileHelper helper= new FileHelper(filePath,cursor);
             helper.SetFileProperty(ao);
+            textView_Comment.setText(ao.getName());
         }
     }
 
