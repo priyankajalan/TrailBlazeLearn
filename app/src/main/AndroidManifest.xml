@@ -50,6 +50,8 @@
         </activity>
         <activity android:name=".views.RoleToggler" android:label="@string/title_activity_role_toggler"/>
         <activity android:name=".views.AudioPlayerActivity"/>
+        <activity android:name=".views.ViewTrailStationActivity" />
+        <activity android:name=".views.NewTrailStationActivity"/>
 
     </application>
 

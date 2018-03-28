@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +19,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.nus.trailblaze.R;
 import org.nus.trailblaze.adapters.LearningTrailFirestoreAdaptor;
-import org.nus.trailblaze.dao.LearningTrailDao;
 import org.nus.trailblaze.listeners.ListItemClickListener;
 import org.nus.trailblaze.models.LearningTrail;
 
@@ -30,50 +28,47 @@ import static android.content.ContentValues.TAG;
  * Created by kooc on 3/20/2018.
  */
 
-public class LearningTrailHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class LearningTrailHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener {
 
-    public static View itemView;
     private TextView LearningTrailName;
     private Button btnOptions;
-    private RecyclerView learningTrailView;
     private ListItemClickListener listener;
     private Context context;
-    private LearningTrailDao trailDao;
 
-    FirebaseFirestore db;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public LearningTrailHolder(final Context context, final View itemView, ListItemClickListener listener, final DocumentSnapshot docSnapshot) {
         super(itemView);
-        itemView.setOnClickListener(this);
-
         this.listener = listener;
         this.context = context;
-        this.learningTrailView = (RecyclerView) itemView.findViewById(R.id.rvLearningTrail);
+
+        itemView.setOnClickListener(this);
+
         this.LearningTrailName = (TextView) itemView.findViewById(R.id.tvLearningTrailName);
         this.btnOptions = (Button) itemView.findViewById(R.id.btnOptions);
 
-        db = FirebaseFirestore.getInstance();
-        trailDao = new LearningTrailDao(db.collection("trails"));
-    }
-
-    public void bind(final LearningTrail trail) {
-        Log.d("Item", trail.getId());
-        LearningTrailName.setText(trail.getName());
-
-        btnOptions.setOnClickListener(new View.OnClickListener(){
+        this.btnOptions.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 PopupMenu menu = new PopupMenu(LearningTrailHolder.this.context, v);
                 menu.inflate(R.menu.options_menu);
 
+//                DocumentSnapshot ds = adaptor.getSnapshots().getSnapshot(LearningTrailHolder.super.getAdapterPosition());
+//                final String documentID = ds.getId();
+
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Log.d("Item", trail.getId());
+                        //Not always working...
+                        //Delete the first row will crash
+                        final String documentID = docSnapshot.getReference().getId();
+                        Log.d("[DocID]", String.valueOf(documentID));
                         switch (item.getItemId()) {
                             case R.id.itemDelete:
-                                trailDao.deleteTrail(trail);
+                                db.collection("trails").document(documentID)
+                                        .delete();
                                 break;
                             case R.id.itemEdit:
 
@@ -87,6 +82,10 @@ public class LearningTrailHolder extends RecyclerView.ViewHolder implements View
                 menu.show();
             }
         });
+    }
+
+    public void bind(LearningTrail item) {
+        LearningTrailName.setText(item.getName());
     }
 
     public void onClick(View view) {
