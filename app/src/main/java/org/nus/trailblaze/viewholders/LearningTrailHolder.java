@@ -62,8 +62,6 @@ public class LearningTrailHolder extends RecyclerView.ViewHolder implements View
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        //Not always working...
-                        //Delete the first row will crash
                         final String documentID = docSnapshot.getReference().getId();
                         Log.d("[DocID]", String.valueOf(documentID));
                         switch (item.getItemId()) {

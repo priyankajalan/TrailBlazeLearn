@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 
-public class NewTrailStationActivity extends AppCompatActivity {
+public class SetTrailStationActivity extends AppCompatActivity {
 
     private Button mSaveBtn;
     private EditText mInstrn;
@@ -45,7 +45,6 @@ public class NewTrailStationActivity extends AppCompatActivity {
     Map<String, String> stationMap = new HashMap<>();
     private String documentID;
     private String nameValue;
-//    private String idValue;
     private String instrValue;
     private  String threadValue;
 
@@ -109,7 +108,7 @@ public class NewTrailStationActivity extends AppCompatActivity {
                 mFireStore.collection(COLLECTION).document(documentID).set(stationMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(NewTrailStationActivity.this,"Station changes saved",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SetTrailStationActivity.this,"Station changes saved",Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), TrailStationMainActivity.class);
                         startActivity(i);
                     }
@@ -117,7 +116,7 @@ public class NewTrailStationActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         String err = e.getMessage();
-                        Toast.makeText(NewTrailStationActivity. this, "Error: "+ err,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SetTrailStationActivity.this, "Error: "+ err,Toast.LENGTH_SHORT).show();
                     }
                 });
             }
