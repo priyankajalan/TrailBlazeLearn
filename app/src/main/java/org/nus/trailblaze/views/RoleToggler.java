@@ -27,15 +27,23 @@ public class RoleToggler extends Activity {
     }
 
     protected void onTrainer(View view){
-        Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
-        trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
-        startActivity(trainerIntent);
+        sendToLearningTrailMain();
+//        Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
+//        trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
+//        startActivity(trainerIntent);
     }
 
     protected void onParticipant(View view){
-        Intent participantIntent = new Intent(this, RoleToggler.participantView);
-        participantIntent.putExtra("participant", Participant.fromUser(this.user));
-        startActivity(participantIntent);
+        sendToLearningTrailMain();
+//        Intent participantIntent = new Intent(this, RoleToggler.participantView);
+//        participantIntent.putExtra("participant", Participant.fromUser(this.user));
+//        startActivity(participantIntent);
+    }
+
+    public void sendToLearningTrailMain(){
+        Intent learningTrailMainIntent = new Intent(RoleToggler.this,LearningTrailMainActivity.class);
+        startActivity(learningTrailMainIntent);
+        finish();
     }
 
 }

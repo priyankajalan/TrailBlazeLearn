@@ -102,7 +102,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser != null){
-            sendToLearningTrailList();
+            sendToChooseLoginRole();
         }
     }
 
@@ -117,7 +117,7 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    sendToLearningTrailList();
+                    sendToChooseLoginRole();
                 }
                 else{
                     String errorMessage = task.getException().getMessage();
@@ -127,9 +127,9 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         });//END: Firebase Auth
     }
 
-    private void sendToLearningTrailList(){
-        Intent learningTrailListIntent = new Intent(TrailBlazeMainActivity.this, LearningTrailMainActivity.class);
-        startActivity(learningTrailListIntent);
+    private void sendToChooseLoginRole(){
+        Intent chooseLoginRoleIntent = new Intent(TrailBlazeMainActivity.this, RoleToggler.class);
+        startActivity(chooseLoginRoleIntent);
         finish();
     }
 

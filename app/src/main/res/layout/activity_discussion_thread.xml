@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.nus.trailblaze.views.DiscussionThreadActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <include
+        android:id="@+id/newThreadToolbar"
+        layout="@layout/toolbar" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+    <ImageView
+        android:id="@+id/new_thread_post_image"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/thread_message_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Your message ..."
+        android:inputType="textMultiLine"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <Button
+            android:id="@+id/upload_photo_btn"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textAllCaps="false"
+            android:layout_marginRight="10dp"
+            android:text="Upload Photo"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/send_post_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textAllCaps="false"
+            android:text="Send Post"
+            android:background="@color/colorAccent"
+            android:textColor="@color/white"
+            android:onClick="sendPostClickListener"/>
+    </LinearLayout>
+
+</LinearLayout>
