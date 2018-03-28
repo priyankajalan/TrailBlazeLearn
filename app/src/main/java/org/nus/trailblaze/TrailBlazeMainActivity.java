@@ -26,10 +26,8 @@ import org.nus.trailblaze.listeners.SignInFailureListener;
 import org.nus.trailblaze.listeners.SignInListener;
 
 import org.nus.trailblaze.dao.GoogleDao;
-import org.nus.trailblaze.views.ContributedItemDocActivity;
-import org.nus.trailblaze.views.ContributedItemImageActivity;
 import org.nus.trailblaze.views.RoleToggler;
-import org.nus.trailblaze.views.TrailBlazaFeedActivity;
+
 
 import java.util.Arrays;
 
