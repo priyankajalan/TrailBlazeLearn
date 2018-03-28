@@ -8,6 +8,7 @@ package org.nus.trailblaze.views;
         import android.support.v7.widget.RecyclerView;
         import android.util.Log;
         import android.view.View;
+        import android.widget.Button;
 
         import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
         import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -18,18 +19,19 @@ package org.nus.trailblaze.views;
         import org.nus.trailblaze.adapters.TrailStationFirestoreAdapter;
         import org.nus.trailblaze.listeners.ListItemClickListener;
         import org.nus.trailblaze.models.TrailStation;
-        import org.nus.trailblaze.models.Trainer;
 
 /**
  * Created by AswathyLeelakumari on 24/3/2018.
  */
 
-public class ViewTrailStationActivity extends Activity implements ListItemClickListener {
+public class MainTrailStationActivity extends Activity implements ListItemClickListener {
 
-    private static final String TAG = "ViewTrailStationActivity";
-    private static final Class newStationView = NewTrailStationActivity.class;
+    private static final String TAG = "MainTrailStationActivity";
+    private static final Class newStationView = SetTrailStationActivity.class;
 
     private RecyclerView mRecyclerView;
+    private Button btnUpdate;
+    private Button btnDelete;
     private RecyclerView.LayoutManager mLayoutManager;
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore firestoreDB;
@@ -39,6 +41,7 @@ public class ViewTrailStationActivity extends Activity implements ListItemClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trail_station_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_trail_station_list);
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -51,6 +54,8 @@ public class ViewTrailStationActivity extends Activity implements ListItemClickL
         firestoreDB = FirebaseFirestore.getInstance();
 
         loadTrialStations();
+
+
     }
 
     private void loadTrialStations() {
@@ -65,6 +70,8 @@ public class ViewTrailStationActivity extends Activity implements ListItemClickL
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }
+
+
 
     @Override
     public void onStart() {
@@ -82,11 +89,14 @@ public class ViewTrailStationActivity extends Activity implements ListItemClickL
     public void onListItemClick(int position) {
         TrailStation item = (TrailStation) adapter.getItem(position);
         Log.d("stations activity", item.getName());
+
     }
+
+
 
     public void btnAddStation(View view) {
         Log.d("redirecting activity","new station");
-        Intent newStnIntent = new Intent(this, ViewTrailStationActivity.newStationView);
+        Intent newStnIntent = new Intent(this, MainTrailStationActivity.newStationView);
         startActivity(newStnIntent);
 
     }
