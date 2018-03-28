@@ -48,14 +48,11 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     private GoogleSignInClient gClient;
     private GoogleDao gDao;
 
-
     // required for facebook login
     private LoginManager fmanager;
     private CallbackManager mCallback;
     private FacebookDao fDao;
 
-    private  Button btn_create_ContributedItem_Doc;
-    private  Button btn_create_ContributedItem_Img;
     @BindView(R.id.progressBar)
     ProgressBar bar;
 
@@ -68,22 +65,6 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         setContentView(R.layout.trail_blaze_main);
         FirebaseApp.initializeApp(this);
         ButterKnife.bind(this);
-
-        btn_create_ContributedItem_Doc=(Button)findViewById(R.id.btn_create_ContributedItem_Doc);
-        btn_create_ContributedItem_Doc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ContributedItemDocActivity.class));
-            }
-        });
-
-        btn_create_ContributedItem_Img=(Button)findViewById(R.id.btn_create_ContributedItem_Img);
-        btn_create_ContributedItem_Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ContributedItemImageActivity.class));
-            }
-        });
 
         // CallbackManager to initalize the Facebook button
         fmanager = LoginManager.getInstance();
