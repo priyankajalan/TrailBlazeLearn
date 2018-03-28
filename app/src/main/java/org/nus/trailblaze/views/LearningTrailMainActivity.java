@@ -2,39 +2,48 @@ package org.nus.trailblaze.views;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import org.nus.trailblaze.R;
-import org.nus.trailblaze.adapters.FeedFirestoreAdapter;
+import org.nus.trailblaze.adapters.LearningTrailFirestoreAdaptor;
 import org.nus.trailblaze.listeners.ListItemClickListener;
-import org.nus.trailblaze.models.ContributedItem;
+import org.nus.trailblaze.models.LearningTrail;
 
-/**
- * Created by wengweichen on 14/3/18.
- */
+public class LearningTrailMainActivity extends Activity implements ListItemClickListener {
 
-public class TrailBlazaFeedActivity extends Activity
-        implements ListItemClickListener {
-
-    private static final String TAG = "TrailBlazaFeedActivity";
+    private static final String TAG = "LearningTrailActivity";
+    public static final int CREATE_NEW_TRAIL = 1000;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore firestoreDB;
 
+    private Button btnAddLearningTrail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trail_blaze_feed);
-        mRecyclerView = (RecyclerView) findViewById(R.id.tb_feed_view);
+        setContentView(R.layout.learning_trail_main);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rvLearningTrail);
+        btnAddLearningTrail = (Button) findViewById(R.id.btnAddLearningTrail);
+        btnAddLearningTrail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LearningTrailMainActivity.this, SetLearningTrailActivity.class);
+                startActivity(intent); // startActivity allow you to move
+            }
+        });
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -50,13 +59,13 @@ public class TrailBlazaFeedActivity extends Activity
     }
 
     private void loadItemsList() {
-        Query query = firestoreDB.collection("contributed_items");
+        Query query = firestoreDB.collection("trails");
 
-        FirestoreRecyclerOptions<ContributedItem> response = new FirestoreRecyclerOptions.Builder<ContributedItem>()
-                .setQuery(query, ContributedItem.class)
+        FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
+                .setQuery(query, LearningTrail.class)
                 .build();
 
-        adapter = new FeedFirestoreAdapter(response, this);
+        adapter = new LearningTrailFirestoreAdaptor(response, this);
 
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
@@ -76,26 +85,11 @@ public class TrailBlazaFeedActivity extends Activity
 
     @Override
     public void onListItemClick(int position) {
-        ContributedItem item = (ContributedItem) adapter.getItem(position);
-        Log.d("ACTIVITY", item.getFile().getMimeType());
+        LearningTrail item = (LearningTrail) adapter.getItem(position);
+        Log.d("ACTIVITY", item.getName());
+        Log.d("[TextView]", String.valueOf(item.getId()));
 
-        //temporary comment
-        Intent myIntent;
+        //Go to Trail Stations list
 
-        if(item.getFile().getMimeType().indexOf("audio") > -1){
-            myIntent = new Intent(TrailBlazaFeedActivity.this,
-                    AudioPlayerActivity.class);
-
-        }
-        else{
-            myIntent = new Intent(TrailBlazaFeedActivity.this,
-                    TrailBlazeItemViewerActivity.class);
-
-        }
-        myIntent.putExtra("Item", item);
-        startActivity(myIntent);
-        // Following the documentation, right after starting the activity
-        // we override the transition
-        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
     }
 }

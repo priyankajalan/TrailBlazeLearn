@@ -18,9 +18,9 @@ import butterknife.ButterKnife;
 
 public class RoleToggler extends Activity {
 
-    private static final Class trainerView = TrailBlazaFeedActivity.class;
-    private static final Class participantView = TrailBlazaFeedActivity.class;
     private static final Class backToHome = TrailBlazeMainActivity.class;
+    private static final Class trainerView = ViewTrailStationActivity.class;
+    private static final Class participantView = TrailBlazaFeedActivity.class;
 
     private AuthDao dao;
     private User user;
