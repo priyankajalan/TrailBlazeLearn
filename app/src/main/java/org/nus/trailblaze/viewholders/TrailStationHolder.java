@@ -20,6 +20,7 @@ import org.nus.trailblaze.listeners.ListItemClickListener;
 import org.nus.trailblaze.models.TrailStation;
 import org.nus.trailblaze.views.SetTrailStationActivity;
 
+
 /**
  * Created by AswathyLeelakumari on 24/3/2018.
  */
@@ -142,6 +143,5 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
         listener.onListItemClick(clickedPosition);
         Log.d("add activity", "next");
     }
-
 
 }

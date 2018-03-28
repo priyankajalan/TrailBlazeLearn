@@ -16,6 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.models.ContributedItem;
 
 import java.io.IOException;
 
@@ -33,13 +34,14 @@ public class AudioPlayerActivity extends AppCompatActivity
 
     private TextView mPass;
     private TextView mDuration;
+    private String audioUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_player);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -49,6 +51,10 @@ public class AudioPlayerActivity extends AppCompatActivity
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         mPass = findViewById(R.id.tv_pass);
         mDuration = findViewById(R.id.tv_duration);
+
+        ContributedItem item = (ContributedItem) getIntent().getParcelableExtra("Item");
+
+        audioUrl = item.getFile().getUrl();
 
         mSeekbarUpdateHandler = new Handler();
 
@@ -99,6 +105,8 @@ public class AudioPlayerActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case android.R.id.home:
 
+                progressDialog.dismiss();
+
                 Intent intent = new Intent(AudioPlayerActivity.this, TrailBlazaFeedActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -113,10 +121,6 @@ public class AudioPlayerActivity extends AppCompatActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        if (stop.isEnabled()) {
-            stop();
-        }
     }
 
     public void onCompletion(MediaPlayer mp) {
@@ -138,6 +142,7 @@ public class AudioPlayerActivity extends AppCompatActivity
 
     private void stop() {
         Log.d("stop", "reached");
+
         mp.stop();
         pause.setEnabled(false);
         stop.setEnabled(false);
@@ -172,7 +177,7 @@ public class AudioPlayerActivity extends AppCompatActivity
                     "Buffering audio...", true);
             progressDialog.setCancelable(true);
             mp = new MediaPlayer();
-            mp.setDataSource("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+            mp.setDataSource(audioUrl);
             mp.prepareAsync();
 
             mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

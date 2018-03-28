@@ -21,6 +21,11 @@ public class ContributedItem extends Item {
         super(id, user, createdDate, file);
         this.description = description;
     }
+    public ContributedItem(String id, User user,String description)
+    {
+        super(id,user);
+        this.description=description;
+    }
 
     public String getDescription() {
         return description;

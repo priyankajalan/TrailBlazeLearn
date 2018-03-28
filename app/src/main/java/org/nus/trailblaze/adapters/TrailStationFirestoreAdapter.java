@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.nus.trailblaze.R;
@@ -27,6 +28,7 @@ public class TrailStationFirestoreAdapter extends FirestoreRecyclerAdapter<Trail
     private View itemView;
     private DocumentSnapshot docSnapshot;
 
+
     public TrailStationFirestoreAdapter(FirestoreRecyclerOptions<TrailStation> response,
                                         ListItemClickListener listener) {
         super(response);
@@ -42,12 +44,14 @@ public class TrailStationFirestoreAdapter extends FirestoreRecyclerAdapter<Trail
         itemView = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
         TrailStationHolder viewHolder = new TrailStationHolder(context, itemView, mOnClickListener, docSnapshot);
 
+
         return viewHolder;
     }
 
     public void onBindViewHolder(TrailStationHolder viewHolder, int index, TrailStation model) {
         viewHolder.bind(model);
         docSnapshot = getSnapshots().getSnapshot(viewHolder.getAdapterPosition());
+
     }
 
     @Override

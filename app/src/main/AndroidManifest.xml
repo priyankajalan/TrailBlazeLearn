@@ -4,17 +4,18 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -39,16 +40,24 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".views.TrailBlazaFeedActivity" />
+        <activity android:name=".views.SetLearningTrailActivity" >
+
+        </activity>
+        <activity android:name=".views.LearningTrailMainActivity" >
+
+        </activity>
+        <activity android:name=".views.ParticipantJoin" />
         <activity
             android:name=".views.RoleToggler"
             android:label="@string/title_activity_role_toggler" />
+        <activity android:name=".views.AudioPlayerActivity" />
+        <activity android:name=".views.ContributedItemImageActivity"></activity>
+        <activity android:name=".views.ContributedItemDocActivity"></activity>
+        <activity android:name=".views.ContributedItemMediaActivity"></activity>
+        <activity android:name=".views.TrailBlazeItemViewerActivity" />
+        <activity android:name=".views.TrailBlazaFeedActivity" />
         <activity android:name=".views.TrailStationMainActivity" />
         <activity android:name=".views.SetTrailStationActivity"/>
-      <activity android:name=".views.SetLearningTrailActivity" />
-        <activity android:name=".views.LearningTrailMainActivity" />
-        <activity android:name=".views.ParticipantJoin" />
-       <activity android:name=".views.AudioPlayerActivity"/>
 
     </application>
 

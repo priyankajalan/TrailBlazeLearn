@@ -26,8 +26,7 @@ import org.nus.trailblaze.listeners.SignInFailureListener;
 import org.nus.trailblaze.listeners.SignInListener;
 
 import org.nus.trailblaze.dao.GoogleDao;
-import org.nus.trailblaze.views.RoleToggler;
-import org.nus.trailblaze.views.TrailBlazaFeedActivity;
+import org.nus.trailblaze.views.RoleToggler;;
 
 import java.util.Arrays;
 
@@ -45,7 +44,6 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     // required for google Login
     private GoogleSignInClient gClient;
     private GoogleDao gDao;
-
 
     // required for facebook login
     private LoginManager fmanager;
