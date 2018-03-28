@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,12 +50,10 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_learning_trail);
-
         titlecode = findViewById(R.id.trailCodeDisplay);
         btn = (Button) findViewById(R.id.newTrail);
         btn.setOnClickListener(this);
         et = (EditText) findViewById(R.id.trailCode);
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         nameValue = bundle.getString(NAMEVALUE);
@@ -77,7 +76,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                trailcode = titlecode.getText().toString();
             }
 
             @Override
@@ -121,27 +120,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(SetLearningTrailActivity.this, "ERROR" + e.toString(),
                                     Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-        else {
-            db.collection(COLLECTION).document(documentID).set(trailDataMap)
-
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(SetLearningTrailActivity.this, "Learning Trail Saved",
-                                    Toast.LENGTH_SHORT).show();
-
-                            Intent i = new Intent(getApplicationContext(), LearningTrailMainActivity.class);
-                            startActivity(i);
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SetLearningTrailActivity.this, "ERROR" + e.toString(),
-                                    Toast.LENGTH_SHORT).show();
+                            Log.d("TAG", e.toString());
                         }
                     });
         }
