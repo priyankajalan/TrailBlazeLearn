@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.nus.trailblaze.views.ContributedItemDocActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/background_gradient"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <TextView
+        android:id="@+id/textView_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:text="Add Document"
+        android:textSize="18sp" />
+
+
+    <EditText
+        android:id="@+id/editText_Description"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="110dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Description" />
+
+    <TextView
+        android:id="@+id/textView_Comment"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/editText_Description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Only upload pdf/txt" />
+
+    <ImageButton
+        android:id="@+id/btnChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Comment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        app:srcCompat="@drawable/file" />
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/background_gradient"
+        android:text="Save" />
+
+
+</RelativeLayout>
+
+
+
+
+
+
