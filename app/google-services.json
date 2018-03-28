@@ -1,0 +1,102 @@
+{
+  "project_info": {
+    "project_number": "521102015172",
+    "firebase_url": "https://trailblaze-0007.firebaseio.com",
+    "project_id": "trailblaze-0007",
+    "storage_bucket": "trailblaze-0007.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521102015172:android:26e101b4d634afb8",
+        "android_client_info": {
+          "package_name": "org.nus.trailblaze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521102015172-h6vshd68mi7oojbo1qt6ajhs0bm4q36a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.nus.trailblaze",
+            "certificate_hash": "797e35c306fc7003a4c5ac22e1d75d2b6c4a9dbf"
+          }
+        },
+        {
+          "client_id": "521102015172-upm5j1k26rod9adb00hui7i8steln817.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.nus.trailblaze",
+            "certificate_hash": "34f755e8c01a6af2f63782c0838ba07d8bee6a5a"
+          }
+        },
+        {
+          "client_id": "521102015172-kaooulfscmab68mjt4fbsninkptiahol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.nus.trailblaze",
+            "certificate_hash": "a6ba6ba02d5b60885175979861dccf6156e7b2bf"
+          }
+        },
+        {
+          "client_id": "521102015172-15i641ilk0nedmi2je3gph69jdgdrn0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1ciN91cF6o2-ou4DJMEIrd8GDlacpI_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "521102015172-15i641ilk0nedmi2je3gph69jdgdrn0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521102015172:android:dc535bbbac8f5c46",
+        "android_client_info": {
+          "package_name": "org.nus.trailblaze.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "521102015172-15i641ilk0nedmi2je3gph69jdgdrn0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1ciN91cF6o2-ou4DJMEIrd8GDlacpI_c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
