@@ -11,4 +11,5 @@
     <color name="colorControlNormal">#FF9800</color>
     <color name="colorControlActivated">#E65100</color>
     <color name="colorControlHighlight">#FFB74D</color>
+    <color name="logout">#634242</color>
 </resources>

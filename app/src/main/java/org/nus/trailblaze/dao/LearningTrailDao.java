@@ -37,4 +37,8 @@ public class LearningTrailDao {
     public Task<Void> createNewTrail(LearningTrail trail){
         return this.ref.document(trail.getId()).set(trail);
     }
+
+    public Task<Void> deleteTrail(LearningTrail trail){
+        return this.ref.document(trail.getId()).delete();
+    }
 }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="org.nus.trailblaze.TrailBlazeMainActivity"
     android:background="@color/white">
+
     <LinearLayout
         android:padding="30dp"
         android:orientation="vertical"
