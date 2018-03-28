@@ -50,10 +50,10 @@ public class LearningTrailFirestoreAdaptor extends FirestoreRecyclerAdapter<Lear
 
     public void onBindViewHolder(@NonNull final LearningTrailHolder viewHolder, int index, @NonNull LearningTrail model) {
 
-        viewHolder.bind(model);
-
         docSnapshot = getSnapshots().getSnapshot(viewHolder.getAdapterPosition());
 
+        model.setId(docSnapshot.getId());
+        viewHolder.bind(model);
     }
 
     @Override
