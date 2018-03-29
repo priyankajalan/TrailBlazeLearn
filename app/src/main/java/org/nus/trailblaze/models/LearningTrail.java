@@ -8,7 +8,16 @@ public class LearningTrail {
     private Date trailDate;
     private String name;
     private Trainer trainer;
-    private List<String> trailStations;
+    //private List<String> trailStations;
+
+    public LearningTrail() {}
+
+    public LearningTrail(String id, Date trailDate, String name, Trainer trainer) {
+        this.id = id;
+        this.trailDate = trailDate;
+        this.name = name;
+        this.trainer = trainer;
+    }
 
     public String getId() {
         return id;
@@ -42,12 +51,12 @@ public class LearningTrail {
         this.trainer = trainer;
     }
 
-    public List<String> getTrailStations(){
-        return this.trailStations;
-    }
-
-    public void setTrailStations(List<String> trailStations) {
-        this.trailStations = trailStations;
-    }
+//    public List<String> getTrailStations(){
+//        return this.trailStations;
+//    }
+//
+//    public void setTrailStations(List<String> trailStations) {
+//        this.trailStations = trailStations;
+//    }
 
 }
