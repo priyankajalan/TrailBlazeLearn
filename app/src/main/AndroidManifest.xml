@@ -54,7 +54,9 @@
         <activity android:name=".views.ContributedItemDocActivity"></activity>
         <activity android:name=".views.ContributedItemMediaActivity"></activity>
         <activity android:name=".views.TrailBlazeItemViewerActivity" />
-        <activity android:name=".views.TrailBlazaFeedActivity" />
+        <activity android:name=".views.TrailBlazaFeedActivity" >
+
+        </activity>
         <activity android:name=".views.ViewTrailStationActivity" />
         <activity android:name=".views.NewTrailStationActivity"/>
 
