@@ -1,4 +1,4 @@
-package org.nus.trailblaze.LearningTrailTest;
+package org.nus.trailblaze.model;
 
 import org.junit.Test;
 import java.util.UUID;

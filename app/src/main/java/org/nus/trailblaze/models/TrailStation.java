@@ -10,7 +10,7 @@ public class TrailStation {
     private String name;
     private String instruction;
 
-    public TrailStation() {};
+    public TrailStation() {}
 
     public TrailStation(String id, Location location, String name, String instruction) {
         this.id = id;
