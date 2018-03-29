@@ -68,7 +68,7 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
     }
 
     private void loadItemsList() {
-        Query query = firestoreDB.collection("trails");
+        Query query = firestoreDB.collection("trails").whereEqualTo("trainer.id", this.trainer.getId());
 
         FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
                 .setQuery(query, LearningTrail.class)
@@ -97,7 +97,7 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
         LearningTrail item = (LearningTrail) adapter.getItem(position);
 
         Intent intent = new Intent(this, ViewTrailStationActivity.class);
-        intent.putExtra("trailDI", item.getName().toString());
+        intent.putExtra("trailID", item.getId());
         startActivity(intent);
     }
 }
