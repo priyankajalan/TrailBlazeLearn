@@ -41,7 +41,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/button_style"
             android:onClick="search"
-            android:text="Search"
+            android:text="Join"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
