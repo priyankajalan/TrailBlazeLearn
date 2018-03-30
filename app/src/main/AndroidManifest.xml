@@ -5,8 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -52,9 +50,7 @@
         <activity android:name=".views.TrailBlazeItemViewerActivity" />
         <activity android:name=".views.TrailBlazaFeedActivity" />
         <activity android:name=".views.TrailStationMainActivity" />
-        <activity android:name=".views.SetTrailStationActivity" />
-        <activity android:name=".views.ViewTrailStationActivity" />
-        <activity android:name=".views.NewTrailStationActivity" />
+        <activity android:name=".views.SetTrailStationActivity"/>
         <activity android:name=".views.DiscussionThreadActivity">
 
         </activity>
