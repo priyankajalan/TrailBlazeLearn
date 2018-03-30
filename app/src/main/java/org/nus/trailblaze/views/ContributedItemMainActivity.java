@@ -34,8 +34,10 @@ public class ContributedItemMainActivity  extends FragmentActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+
         //Initializing Fragments
         feedFragment = new FeedFragment();
+        //TODO need to pass in station id
 
         replaceFragment(feedFragment);
 

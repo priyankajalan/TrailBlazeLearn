@@ -44,7 +44,7 @@ public class FeedFragment extends Fragment
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.d("Test", "onViewCreated");
+
         mRecyclerView = (RecyclerView) getView().findViewById(R.id.tb_feed_view);
 
         // use this setting to improve performance if you know that changes
