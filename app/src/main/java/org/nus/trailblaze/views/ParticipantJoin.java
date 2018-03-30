@@ -1,7 +1,5 @@
 package org.nus.trailblaze.views;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
 
 public class ParticipantJoin extends AppCompatActivity {
 
-    private static Class next = TrailBlazaFeedActivity.class;
+    private static Class next = TrailStationMainActivity.class;
     private Participant participant;
     private LearningTrailDao dao;
 

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -130,10 +131,13 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     @Override
     public void onListItemClick(int position) {
         LearningTrail item = (LearningTrail) adapter.getItem(position);
-
-        Intent intent = new Intent(this, ViewTrailStationActivity.class);
-        intent.putExtra("trailID", item.getId());
+        Log.d("item clicked!!",String.valueOf(item));
+        Intent intent = new Intent(this, TrailStationMainActivity.class);
+        intent.putExtra("trailID", item.getName().toString());
+        intent.putExtra("userMode", "trainer");
+        intent.putExtra("trainer", Trainer.fromUser(this.trainer));
         startActivity(intent);
+
     }
 
     @Override

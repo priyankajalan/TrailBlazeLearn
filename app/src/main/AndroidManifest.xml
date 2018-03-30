@@ -55,8 +55,6 @@
         <activity android:name=".views.TrailBlazaFeedActivity" />
         <activity android:name=".views.TrailStationMainActivity" />
         <activity android:name=".views.SetTrailStationActivity"/>
-        <activity android:name=".views.ViewTrailStationActivity" />
-        <activity android:name=".views.NewTrailStationActivity"/>
         <activity android:name=".views.DiscussionThreadActivity">
 
         </activity>

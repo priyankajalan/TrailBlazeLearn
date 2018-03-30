@@ -13,7 +13,7 @@ public class TestTrailStation {
             ", pronouncement; summons, writ, subpoena, warrant; informalsay-so; literarybehest; rare" +
             "rescript\"if a prisoner disobeys an instruction, he will be punished";
 
-    TrailStation trailStation1 = new TrailStation("id_321", null, "Park", instruction);
+    TrailStation trailStation1 = new TrailStation("id_321", "Park", instruction, "1", "180330-small walk");
 
     @Test
     public void testGetID() {
