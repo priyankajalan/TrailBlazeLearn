@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class ParticipantJoin extends AppCompatActivity {
 
-    private static Class next = TrailBlazaFeedActivity.class;
+    private static Class next = TrailStationMainActivity.class;
     private Participant participant;
 
     @BindView(R.id.searchId)
@@ -36,7 +36,8 @@ public class ParticipantJoin extends AppCompatActivity {
         if(this.validate(term)){
             Intent nextTo = new Intent(this, ParticipantJoin.next);
             nextTo.putExtra("user", this.participant);
-            nextTo.putExtra("searchid", term);
+            nextTo.putExtra("trailId", term);
+            nextTo.putExtra("userMode", "participant");
             startActivity(nextTo);
         }
         else {
