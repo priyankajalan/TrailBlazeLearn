@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -29,7 +29,6 @@ import org.nus.trailblaze.listeners.ListItemClickListener;
 import org.nus.trailblaze.models.LearningTrail;
 import org.nus.trailblaze.models.Trainer;
 import org.nus.trailblaze.models.User;
-import org.nus.trailblaze.viewholders.LearningTrailHolder;
 
 public class LearningTrailMainActivity extends AppCompatActivity implements ListItemClickListener {
 
@@ -45,6 +44,7 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
 
     private ProgressBar progressBar;
     private Button btnAddLearningTrail;
+    private TextView noResultTextView;
     private Trainer trainer;
 
     @Override
@@ -56,6 +56,7 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
 
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mRecyclerView = (RecyclerView) findViewById(R.id.rvLearningTrail);
+        noResultTextView = (TextView) findViewById(R.id.tv_noResult);
         btnAddLearningTrail = (Button) findViewById(R.id.btnAddLearningTrail);
         btnAddLearningTrail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,7 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     private void loadItemsList() {
         Query query = firestoreDB.collection("trails").whereEqualTo("trainer.id", this.trainer.getId());
 
-        FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
+        final FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
                 .setQuery(query, LearningTrail.class)
                 .build();
 
@@ -95,6 +96,7 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
             @Override
             public void onDataChanged() {
                 progressBar.setVisibility(View.GONE);
+                noResultTextView.setVisibility((response.getSnapshots().size() == 0 ? View.VISIBLE : View.GONE));
             }
         };
 
