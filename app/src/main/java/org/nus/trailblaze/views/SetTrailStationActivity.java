@@ -113,8 +113,6 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
                         place.getName().toString());
 
                 Log.i("Place", "Place: " + location.getName());
-                Log.d("Place lat!!!!",String.valueOf(location.getLatitude()));
-                Log.d("Place long!!!!",String.valueOf(location.getLongitude()));
             }
 
             @Override

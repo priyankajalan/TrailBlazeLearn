@@ -6,7 +6,7 @@ package org.nus.trailblaze.models;
 
 public class TrailStation {
     private String id;
-    private Location location;
+   private Location location;
     private String name;
     private String instruction;
     private String sequence;
