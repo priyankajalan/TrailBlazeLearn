@@ -39,21 +39,29 @@ public class RoleToggler extends Activity {
         ButterKnife.bind(this);
         dao = new AuthDao();
         // assuming the screen wouldn't be reached without an intent.
-        user = (User) this.getIntent().getExtras().get("user");
-        this.email.setText(user.getEmail());
-        this.username.setText(user.getName());
+//        user = (User) this.getIntent().getExtras().get("user");
+//        this.email.setText(user.getEmail());
+//        this.username.setText(user.getName());
     }
 
     protected void onTrainer(View view){
-        Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
-        trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
-        startActivity(trainerIntent);
+        sendToLearningTrailMain();
+//        Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
+//        trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
+//        startActivity(trainerIntent);
     }
 
     protected void onParticipant(View view){
-        Intent participantIntent = new Intent(this, RoleToggler.participantView);
-        participantIntent.putExtra("participant", Participant.fromUser(this.user));
-        startActivity(participantIntent);
+        sendToLearningTrailMain();
+//        Intent participantIntent = new Intent(this, RoleToggler.participantView);
+//        participantIntent.putExtra("participant", Participant.fromUser(this.user));
+//        startActivity(participantIntent);
+    }
+
+    public void sendToLearningTrailMain(){
+        Intent learningTrailMainIntent = new Intent(RoleToggler.this,LearningTrailMainActivity.class);
+        startActivity(learningTrailMainIntent);
+        finish();
     }
 
     protected void onLogout(View view){
