@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.fragments.FeedFragment;
 import org.nus.trailblaze.models.ContributedItem;
 
 /**
@@ -20,15 +21,12 @@ public class TrailBlazaFeedActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Test", "onCreate");
         setContentView(R.layout.trail_blaze_feed);
 
     }
 
     @Override
     public void passItem(ContributedItem item) {
-        Log.d("ACTIVITY", item.getFile().getMimeType());
-
         Intent myIntent;
 
         if(item.getFile().getMimeType().indexOf("audio") > -1){
