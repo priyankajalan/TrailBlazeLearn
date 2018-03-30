@@ -125,8 +125,6 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
 
     }
 
-
-
     public void btnAddStation(View view) {
         Log.d("redirecting activity","new station");
 

@@ -130,7 +130,7 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
         String stationInstrn = mInstrn.getText().toString();
         String stationSeq = mSeq.getText().toString();
 
-        trailStation = new TrailStation(documentID, stationName, stationInstrn, stationSeq, trailId);
+        trailStation = new TrailStation(documentID, location, stationName, stationInstrn, stationSeq, trailId);
         TrailStationDao trailStationDao = new TrailStationDao(SetTrailStationActivity.this, trailStation);
         trailStationDao.SaveTrailStation(documentID);
 
