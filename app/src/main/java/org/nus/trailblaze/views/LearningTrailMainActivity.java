@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -40,7 +42,9 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     private FirebaseAuth firebaseAuth;
     private Toolbar mainToolbar;
 
+    private ProgressBar progressBar;
     private Button btnAddLearningTrail;
+    private TextView noResultTextView;
     private Trainer trainer;
 
     @Override
@@ -50,9 +54,9 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
 
         this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
 
-        Log.d("Trainer", this.trainer.getId());
-
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mRecyclerView = (RecyclerView) findViewById(R.id.rvLearningTrail);
+        noResultTextView = (TextView) findViewById(R.id.tv_noResult);
         btnAddLearningTrail = (Button) findViewById(R.id.btnAddLearningTrail);
         btnAddLearningTrail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,14 +88,21 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     private void loadItemsList() {
         Query query = firestoreDB.collection("trails").whereEqualTo("trainer.id", this.trainer.getId());
 
-        FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
+        final FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
                 .setQuery(query, LearningTrail.class)
                 .build();
 
-        adapter = new LearningTrailFirestoreAdaptor(response, this, this.trainer);
+        adapter = new LearningTrailFirestoreAdaptor(response, this, this.trainer) {
+            @Override
+            public void onDataChanged() {
+                progressBar.setVisibility(View.GONE);
+                noResultTextView.setVisibility((response.getSnapshots().size() == 0 ? View.VISIBLE : View.GONE));
+            }
+        };
 
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
+
     }
 
     @Override
