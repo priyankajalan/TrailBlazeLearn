@@ -37,7 +37,10 @@ public class ContributedItemMainActivity  extends FragmentActivity
 
         //Initializing Fragments
         feedFragment = new FeedFragment();
-        //TODO need to pass in station id
+        Bundle bundle = new Bundle();
+        bundle.putString("id", "TrailStationId1");
+        bundle.putString("userMode", "participant");
+        feedFragment.setArguments(bundle);
 
         replaceFragment(feedFragment);
 
