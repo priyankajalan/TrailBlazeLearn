@@ -8,16 +8,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.nus.trailblaze.R;
-import org.nus.trailblaze.fragments.AudioFragment;
-import org.nus.trailblaze.fragments.DocFragment;
 import org.nus.trailblaze.fragments.FeedFragment;
-import org.nus.trailblaze.fragments.PhotoFragment;
 import org.nus.trailblaze.models.ContributedItem;
 
 public class ContributedItemMainActivity  extends FragmentActivity
@@ -25,6 +24,9 @@ public class ContributedItemMainActivity  extends FragmentActivity
 
     //Declaring Fragments
     private FeedFragment feedFragment;
+
+    private Toolbar itemToolbar;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +36,18 @@ public class ContributedItemMainActivity  extends FragmentActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //Account Settings Toolbar
+        Toolbar itemToolbar = findViewById(R.id.itemToolbar);
+        itemToolbar.setTitle("Contributed Item");
+
         //Initializing Fragments
         feedFragment = new FeedFragment();
 
         replaceFragment(feedFragment);
 
     }
-
     //Handle Bottom navigation menu clicks
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -90,4 +97,11 @@ public class ContributedItemMainActivity  extends FragmentActivity
         // we override the transition
         overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
     }
+
+    public void goToThreadListener(View view){
+        Intent threadIntent = new Intent(ContributedItemMainActivity.this,DiscussionThreadActivity.class);
+        startActivity(threadIntent);
+        finish();
+    }
+
 }
