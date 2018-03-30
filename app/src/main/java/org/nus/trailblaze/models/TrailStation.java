@@ -6,7 +6,7 @@ package org.nus.trailblaze.models;
 
 public class TrailStation {
     private String id;
-   // private Location location;
+   private Location location;
     private String name;
     private String instruction;
     private String sequence;
@@ -16,7 +16,7 @@ public class TrailStation {
 
     public TrailStation(String id,  String name, String instruction, String sequence, String trailId) {
         this.id = id;
-        //this.location = location;
+        this.location = null;
         this.name = name;
         this.instruction = instruction;
         this.sequence = sequence;
@@ -30,14 +30,14 @@ public class TrailStation {
     public void setId(String id) {
         this.id = id;
     }
-//
-//    public Location getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(Location location) {
-//        this.location = location;
-//    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public String getName() {
         return name;
