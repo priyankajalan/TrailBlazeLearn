@@ -1,17 +1,17 @@
 package org.nus.trailblaze.views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -40,7 +40,9 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     private FirebaseAuth firebaseAuth;
     private Toolbar mainToolbar;
 
+    private ProgressBar progressBar;
     private Button btnAddLearningTrail;
+    private TextView noResultTextView;
     private Trainer trainer;
 
     @Override
@@ -50,9 +52,9 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
 
         this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
 
-        Log.d("Trainer", this.trainer.getId());
-
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mRecyclerView = (RecyclerView) findViewById(R.id.rvLearningTrail);
+        noResultTextView = (TextView) findViewById(R.id.tv_noResult);
         btnAddLearningTrail = (Button) findViewById(R.id.btnAddLearningTrail);
         btnAddLearningTrail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,21 +79,30 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
         //Account Settings Toolbar
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
-        getSupportActionBar().setTitle("Learning Trails");
+        getSupportActionBar().setTitle("Learning Trail");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         loadItemsList();
     }
 
     private void loadItemsList() {
-        Query query = firestoreDB.collection("trails");
+        Query query = firestoreDB.collection("trails").whereEqualTo("trainer.id", this.trainer.getId());
 
-        FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
+        final FirestoreRecyclerOptions<LearningTrail> response = new FirestoreRecyclerOptions.Builder<LearningTrail>()
                 .setQuery(query, LearningTrail.class)
                 .build();
 
-        adapter = new LearningTrailFirestoreAdaptor(response, this, this.trainer);
+        adapter = new LearningTrailFirestoreAdaptor(response, this, this.trainer) {
+            @Override
+            public void onDataChanged() {
+                progressBar.setVisibility(View.GONE);
+                noResultTextView.setVisibility((response.getSnapshots().size() == 0 ? View.VISIBLE : View.GONE));
+            }
+        };
 
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -121,27 +132,20 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
         LearningTrail item = (LearningTrail) adapter.getItem(position);
 
         Intent intent = new Intent(this, ViewTrailStationActivity.class);
-        intent.putExtra("trailDI", item.getName().toString());
+        intent.putExtra("trailID", item.getId());
         startActivity(intent);
     }
-
-//    private class OptionsButtonViewHolder extends RecyclerView.ViewHolder {
-//
-//        public TextView LearningTrailName;
-//        public Button buttonOptions;
-//
-//        public OptionsButtonViewHolder(View itemView) {
-//            super(itemView);
-//
-//            LearningTrailName = (TextView) itemView.findViewById(R.id.tvLearningTrailName);
-//            buttonOptions = (Button) itemView.findViewById(R.id.buttonOptions);
-//        }
-//    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(LearningTrailMainActivity.this, RoleToggler.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("user", Trainer.fromUser(this.trainer));
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.settings_menu:
                 goToAccountSetupActivity();
                 return true;

@@ -1,25 +1,12 @@
-package org.nus.trailblaze;
+package org.nus.trailblaze.dao;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
-import android.app.Activity;
-import android.text.TextUtils;
-
-import com.facebook.AccessToken;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,9 +32,7 @@ import org.powermock.api.mockito.PowerMockito;
 
 // To be tested.
 import org.nus.trailblaze.models.LearningTrail;
-import org.nus.trailblaze.dao.LearningTrailDao;
 
-import java.util.Arrays;
 import java.util.Date;
 
 @RunWith(PowerMockRunner.class)
