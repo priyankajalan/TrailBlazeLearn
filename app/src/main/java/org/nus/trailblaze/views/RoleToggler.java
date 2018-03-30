@@ -38,13 +38,14 @@ public class RoleToggler extends Activity {
         setContentView(R.layout.activity_role_toggler);
         ButterKnife.bind(this);
         dao = new AuthDao();
-        // assuming the screen wouldn't be reached without an intent.
+         //assuming the screen wouldn't be reached without an intent.
         user = (User) this.getIntent().getExtras().get("user");
         this.email.setText(user.getEmail());
         this.username.setText(user.getName());
     }
 
     protected void onTrainer(View view){
+
         Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
         trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
         startActivity(trainerIntent);
@@ -57,9 +58,9 @@ public class RoleToggler extends Activity {
     }
 
     protected void onLogout(View view){
-        dao.signOut();
-        Intent intent = new Intent(this, RoleToggler.backToHome);
-        startActivity(intent);
+        Intent logoutIntent = new Intent(this, RoleToggler.backToHome);
+        this.dao.signOut();
+        startActivity(logoutIntent);
     }
 
 }
