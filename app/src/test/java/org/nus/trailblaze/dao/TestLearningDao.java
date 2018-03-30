@@ -94,7 +94,7 @@ public class TestLearningDao {
         // Test learning get by id
         LearningTrailDao dao = new LearningTrailDao(this.cref);
 
-        when(this.cref.whereEqualTo("trail_id", "cheekit")).thenReturn(query);
+        when(this.cref.whereEqualTo("name", "cheekit")).thenReturn(query);
         when(query.get()).thenReturn(this.empty);
         assertThat(dao.getTrailById("cheekit"), is(empty));
     }
