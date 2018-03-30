@@ -10,17 +10,17 @@ public class TrailStation {
     private String name;
     private String instruction;
     private String sequence;
-    private String trail_id;
+    private String trailId;
 
     public TrailStation() {};
 
-    public TrailStation(String id,  String name, String instruction, String sequence, String trail_id) {
+    public TrailStation(String id,  String name, String instruction, String sequence, String trailId) {
         this.id = id;
         //this.location = location;
         this.name = name;
         this.instruction = instruction;
         this.sequence = sequence;
-        this.trail_id = trail_id;
+        this.trailId = trailId;
     }
 
     public String getId() {
@@ -62,11 +62,11 @@ public class TrailStation {
     }
 
     public String getTrailId() {
-        return trail_id;
+        return trailId;
     }
 
     public void setTrailId(String trail_id) {
-        this.trail_id = trail_id;
+        this.trailId = trailId;
     }
 
 

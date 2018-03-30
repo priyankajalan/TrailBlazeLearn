@@ -21,6 +21,7 @@ import org.nus.trailblaze.listeners.ListItemClickListener;
 import org.nus.trailblaze.models.TrailStation;
 import org.nus.trailblaze.models.Trainer;
 import org.nus.trailblaze.views.SetTrailStationActivity;
+import org.nus.trailblaze.views.TrailStationMainActivity;
 
 
 /**
@@ -41,7 +42,7 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public TrailStationHolder(final Context context, View itemView,
+    public TrailStationHolder(final Context context,final View itemView,
                               ListItemClickListener listener, Trainer trainer) {
         super(itemView);
         itemView.setOnClickListener(this);
@@ -51,7 +52,6 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
 
         Intent intent = ((Activity) context).getIntent();
         String userMode = intent.getStringExtra("userMode");
-
 
         trailStationView = (RecyclerView) itemView.findViewById(R.id.rv_trail_station_list);
         stationName = (TextView) itemView.findViewById(R.id.station_name);
@@ -80,10 +80,10 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
                     menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-//
+                            Log.d("Item", station.getId());
                             switch (item.getItemId()) {
                                 case R.id.itemDelete:
-                                    stationDao.deleteStation(station);
+                                    stationDao.deleteStation(station.getId());
                                     break;
                                 case R.id.itemEdit:
                                     Intent intent = new Intent(context.getApplicationContext(), SetTrailStationActivity.class);

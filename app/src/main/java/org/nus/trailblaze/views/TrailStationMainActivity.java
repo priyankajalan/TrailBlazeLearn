@@ -91,7 +91,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     }
 
     private void loadTrialStations() {
-        Query query = firestoreDB.collection("stations").whereEqualTo("trail_id",trailID).orderBy("sequence");
+        Query query = firestoreDB.collection("stations").whereEqualTo("trailId",trailID).orderBy("sequence");
         Log.d("query bundle", String.valueOf(query));
 
         FirestoreRecyclerOptions<TrailStation> response = new FirestoreRecyclerOptions.Builder<TrailStation>()

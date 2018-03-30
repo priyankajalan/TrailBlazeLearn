@@ -55,7 +55,7 @@ public class TrailStationDao {
     }
 
 
-    public Task<Void> deleteStation(TrailStation station){
-        return this.ref.document(station.getId()).delete();
+    public Task<Void> deleteStation(String documentID){
+        return this.ref.document(documentID).delete();
     }
 }
