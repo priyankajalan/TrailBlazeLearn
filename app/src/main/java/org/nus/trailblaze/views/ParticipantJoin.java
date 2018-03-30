@@ -2,11 +2,18 @@ package org.nus.trailblaze.views;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.nus.trailblaze.R;
 import org.nus.trailblaze.dao.LearningTrailDao;
@@ -25,7 +32,13 @@ public class ParticipantJoin extends AppCompatActivity {
     private LearningTrailDao dao;
 
     @BindView(R.id.searchId)
-    EditText searchid;
+    public EditText searchid;
+
+    @BindView(R.id.searchPrgoressBar)
+    public ProgressBar bar;
+
+    @BindView(R.id.searchTrail)
+    public Button searchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +66,19 @@ public class ParticipantJoin extends AppCompatActivity {
 
     public void searchAndSend(String trailid){
         Log.d("trailid", trailid);
-        this.dao.getTrailById(trailid)
+        this.bar.setVisibility(ProgressBar.VISIBLE);
+        this.searchid.setEnabled(false);
+        this.searchBtn.setEnabled(false);
+        Task<QuerySnapshot> querySnapshotTask = this.dao.getTrailById(trailid)
                 .addOnCompleteListener(new TrialSearchListener(this, ParticipantJoin.next, this.participant, trailid))
-                .addOnFailureListener(new SignInFailureListener(this));
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        ParticipantJoin.this.bar.setVisibility(ProgressBar.INVISIBLE);
+                        ParticipantJoin.this.searchid.setEnabled(true);
+                        ParticipantJoin.this.searchBtn.setEnabled(true);
+                    }
+                });
     }
 
 }
