@@ -70,6 +70,8 @@ public class LearningTrailHolder extends RecyclerView.ViewHolder implements View
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
+
+                        //final String documentID = docSnapshot.getReference().getId();
                         Log.d("Item", trail.getId());
                         switch (item.getItemId()) {
                             case R.id.itemDelete:
