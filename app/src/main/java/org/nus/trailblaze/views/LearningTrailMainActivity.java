@@ -98,6 +98,8 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
 
         Intent intent = new Intent(this, TrailStationMainActivity.class);
         intent.putExtra("trailID", item.getName().toString());
+        intent.putExtra("userMode", "trainer");
+        intent.putExtra("trainer", Trainer.fromUser(this.trainer));
         startActivity(intent);
     }
 }

@@ -18,6 +18,7 @@ package org.nus.trailblaze.views;
         import org.nus.trailblaze.R;
         import org.nus.trailblaze.adapters.TrailStationFirestoreAdapter;
         import org.nus.trailblaze.listeners.ListItemClickListener;
+        import org.nus.trailblaze.models.Participant;
         import org.nus.trailblaze.models.TrailStation;
         import org.nus.trailblaze.models.Trainer;
         import org.nus.trailblaze.models.User;
@@ -32,13 +33,15 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     private static final Class setStationView = SetTrailStationActivity.class;
 
     private RecyclerView mRecyclerView;
+    private Button mBtnAddStation;
     private Button btnUpdate;
-    private Button btnDelete;
     private RecyclerView.LayoutManager mLayoutManager;
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore firestoreDB;
     private Trainer trainer;
+    private Participant participant;
     private String trailID;
+    private String userMode;
 
 
     @Override
@@ -46,14 +49,31 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trail_station_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_trail_station_list);
+        btnUpdate = (Button) findViewById(R.id.btnUpdateOptions);
+        mBtnAddStation = (Button) findViewById(R.id.btn_add_trail_station);
 
-     //   this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
-        Log.d("trained id added","");
+        mBtnAddStation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newStnIntent = new Intent(TrailStationMainActivity.this, TrailStationMainActivity.setStationView);
+                newStnIntent.putExtra("trailID", trailID);
+                //newStnIntent.putExtra("trainer", Trainer.fromUser(TrailStationMainActivity.this.trainer));
+                startActivity(newStnIntent);
+            }
+        });
+
+       // this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
+
 
         Intent intent = getIntent();
         trailID = intent.getStringExtra("trailID");
-        Log.d("trainer bundle", trailID);
+        userMode = intent.getStringExtra("userMode");
 
+
+        if (userMode.equals("trainer"))
+        {
+            mBtnAddStation.setVisibility(View.VISIBLE); //SHOW the button
+        }
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -71,14 +91,14 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     }
 
     private void loadTrialStations() {
-        Query query = firestoreDB.collection("stations").whereEqualTo("trail_id",trailID);
+        Query query = firestoreDB.collection("stations").whereEqualTo("trail_id",trailID).orderBy("sequence");
         Log.d("query bundle", String.valueOf(query));
 
         FirestoreRecyclerOptions<TrailStation> response = new FirestoreRecyclerOptions.Builder<TrailStation>()
                 .setQuery(query, TrailStation.class)
                 .build();
 
-        adapter = new TrailStationFirestoreAdapter(response, this);
+        adapter = new TrailStationFirestoreAdapter(response, this, this.trainer);
 
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
@@ -109,9 +129,6 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
 
     public void btnAddStation(View view) {
         Log.d("redirecting activity","new station");
-        Intent newStnIntent = new Intent(this, TrailStationMainActivity.setStationView);
-        newStnIntent.putExtra("trailID", trailID);
-        startActivity(newStnIntent);
 
     }
 }

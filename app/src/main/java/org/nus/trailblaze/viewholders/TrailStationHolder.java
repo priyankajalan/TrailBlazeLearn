@@ -1,5 +1,6 @@
 package org.nus.trailblaze.viewholders;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +16,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.nus.trailblaze.R;
-import org.nus.trailblaze.adapters.TrailStationFirestoreAdapter;
+import org.nus.trailblaze.dao.TrailStationDao;
 import org.nus.trailblaze.listeners.ListItemClickListener;
 import org.nus.trailblaze.models.TrailStation;
+import org.nus.trailblaze.models.Trainer;
 import org.nus.trailblaze.views.SetTrailStationActivity;
 
 
@@ -27,91 +29,86 @@ import org.nus.trailblaze.views.SetTrailStationActivity;
 
 public class TrailStationHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-//    private TextView stationId;
+    public static View itemView;
     private TextView stationName;
     private Button btnUpdate;
     private RecyclerView trailStationView;
     private ListItemClickListener listener;
     private Context context;
-    private TrailStationFirestoreAdapter adapter;
+    private TrailStationDao stationDao;
+    private Trainer trainer;
+
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public TrailStationHolder(final Context context, View itemView, ListItemClickListener listener, final DocumentSnapshot docSnapshot) {
+    public TrailStationHolder(final Context context, View itemView,
+                              ListItemClickListener listener, Trainer trainer) {
         super(itemView);
+        itemView.setOnClickListener(this);
+
         this.listener = listener;
         this.context = context;
 
-//        itemView.setOnClickListener(this);
+        Intent intent = ((Activity) context).getIntent();
+        String userMode = intent.getStringExtra("userMode");
+
 
         trailStationView = (RecyclerView) itemView.findViewById(R.id.rv_trail_station_list);
-//        stationId = (TextView) itemView.findViewById(R.id.station_id);
         stationName = (TextView) itemView.findViewById(R.id.station_name);
         btnUpdate = (Button) itemView.findViewById(R.id.btnUpdateOptions);
 
+        if (userMode.equals("trainer"))
+        {
+            btnUpdate.setVisibility(View.VISIBLE); //SHOW the button
+        }
 
-        btnUpdate.setOnClickListener(new View.OnClickListener(){
+        this.trainer = trainer;
+        stationDao = new TrailStationDao(db.collection("stations"));
+    }
 
-            @Override
-            public void onClick(final View v) {
-                PopupMenu menu = new PopupMenu(TrailStationHolder.this.context, v);
-                menu.inflate(R.menu.options_menu);
+        public void bind(final TrailStation station) {
+            Log.d("Item", station.getId());
+            stationName.setText(station.getName());
 
-//                DocumentSnapshot ds = adaptor.getSnapshots().getSnapshot(LearningTrailHolder.super.getAdapterPosition());
-//                final String documentID = ds.getId();
+            btnUpdate.setOnClickListener(new View.OnClickListener(){
 
-                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        //Not always working...
-                        //Delete the first row will crash
-                        final String documentID = docSnapshot.getReference().getId();
-                        final int itemID = item.getItemId();
-                        Log.d("[DocID Trial delete]", String.valueOf(R.id.itemDelete));
-                        Log.d("[DocID Trial edit]", String.valueOf(R.id.itemEdit));
-                        Log.d("[DocID Trial itemid]", String.valueOf(itemID));
-                        final String seqValue = docSnapshot.getData().get(SetTrailStationActivity.SEQ).toString();
-                        final String nameValue = docSnapshot.getData().get(SetTrailStationActivity.NAME).toString();
-                        final String instrValue = docSnapshot.getData().get(SetTrailStationActivity.INSTRUCTION).toString();
+                @Override
+                public void onClick(final View v) {
+                    PopupMenu menu = new PopupMenu(TrailStationHolder.this.context, v);
+                    menu.inflate(R.menu.options_menu);
 
-                        switch (item.getItemId()) {
-                            case R.id.itemDelete:
-                                Log.d("stations delete", v.toString());
-                                db.collection("stations").document(documentID)
-                                        .delete();
+                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+//
+                            switch (item.getItemId()) {
+                                case R.id.itemDelete:
+                                    stationDao.deleteStation(station);
+                                    break;
+                                case R.id.itemEdit:
+                                    Intent intent = new Intent(context.getApplicationContext(), SetTrailStationActivity.class);
+                                    Bundle bundle = new Bundle();
 
-                                break;
-                            case R.id.itemEdit:
+                                    bundle.putString(SetTrailStationActivity.DOCUMENTID, station.getId());
+                                    bundle.putString(SetTrailStationActivity.SEQVALUE, station.getSequence());
+                                    bundle.putString(SetTrailStationActivity.NAMEVALUE, station.getName());
+                                    bundle.putString(SetTrailStationActivity.INSTRVALUE, station.getInstruction());
+                                    intent.putExtras(bundle);
 
-                                Log.d("stations update", v.toString());
-                                Intent intent = new Intent(context.getApplicationContext(), SetTrailStationActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putString(SetTrailStationActivity.DOCUMENTID, documentID);
-                                Log.d("[ID-id]", String.valueOf(documentID));
-                                bundle.putString(SetTrailStationActivity.SEQVALUE, seqValue);
-                                Log.d("[ID-seq]", String.valueOf(seqValue));
-                                bundle.putString(SetTrailStationActivity.NAMEVALUE, nameValue);
-                                Log.d("[ID-name]", String.valueOf(nameValue));
-                                bundle.putString(SetTrailStationActivity.INSTRVALUE, instrValue);
-                                Log.d("[ID-instr]", String.valueOf(instrValue));
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                                break;
+                                    //intent.putExtra("trainer", Trainer.fromUser(TrailStationHolder.this.trainer));
+                                    context.startActivity(intent);
+                                    break;
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                });
-                menu.show();
-            }
-        });
-
-    }
+                    });
+                    menu.show();
+                }
+            });
 
 
-    public void bind(TrailStation item) {
-//        stationId.setText(item.getId());
-        stationName.setText(item.getName());
-    }
+        }
+
 
     public void onClick(View view) {
         int clickedPosition = getAdapterPosition();
