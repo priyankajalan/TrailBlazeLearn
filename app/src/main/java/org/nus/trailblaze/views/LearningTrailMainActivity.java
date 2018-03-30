@@ -131,7 +131,6 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     @Override
     public void onListItemClick(int position) {
         LearningTrail item = (LearningTrail) adapter.getItem(position);
-        Log.d("item clicked!!",String.valueOf(item));
         Intent intent = new Intent(this, TrailStationMainActivity.class);
         intent.putExtra("trailID", item.getName().toString());
         intent.putExtra("userMode", "trainer");
