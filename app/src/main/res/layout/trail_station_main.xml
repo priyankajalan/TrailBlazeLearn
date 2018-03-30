@@ -23,8 +23,6 @@
         android:onClick="btnAddStation"
         android:text="Add Trial Station" />
 
-
-
 </RelativeLayout>
 
 

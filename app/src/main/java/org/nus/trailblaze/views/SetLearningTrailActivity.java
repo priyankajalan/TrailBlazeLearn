@@ -56,11 +56,6 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
         nameValue = bundle.getString(NAMEVALUE);
         documentID = bundle.getString(DOCUMENTID);
 
-        if (nameValue != null) {
-            nameValue = nameValue.substring(nameValue.lastIndexOf("-") + 1);
-            et.setText(nameValue);
-        }
-
         Date date = new Date();
         String day          = (String) DateFormat.format("dd", date);
         String monthNumber  = (String) DateFormat.format("MM", date);
@@ -68,6 +63,12 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
 
         ymd = year + monthNumber + day;
         titlecode.setText(ymd);
+
+        if (nameValue != null) {
+            titlecode.setText(nameValue);
+            nameValue = nameValue.substring(nameValue.lastIndexOf("-") + 1);
+            et.setText(nameValue);
+        }
 
         this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
 

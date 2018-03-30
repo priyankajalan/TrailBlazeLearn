@@ -5,23 +5,32 @@ package org.nus.trailblaze.models;
  */
 
 public class Location {
-    private Float longitude;
-    private Float latitude;
+    private double longitude;
+    private double latitude;
+
+    public Location() {}
+
+    public Location(double longitude, double latitude, String name) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.name = name;
+    }
+
     private String name;
 
-    public Float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public Float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
