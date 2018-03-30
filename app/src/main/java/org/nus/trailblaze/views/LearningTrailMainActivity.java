@@ -1,13 +1,11 @@
 package org.nus.trailblaze.views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,7 +79,9 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
         //Account Settings Toolbar
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
-        getSupportActionBar().setTitle("Learning Trails");
+        getSupportActionBar().setTitle("Learning Trail");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         loadItemsList();
     }
 
@@ -136,23 +136,16 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
         startActivity(intent);
     }
 
-//    private class OptionsButtonViewHolder extends RecyclerView.ViewHolder {
-//
-//        public TextView LearningTrailName;
-//        public Button buttonOptions;
-//
-//        public OptionsButtonViewHolder(View itemView) {
-//            super(itemView);
-//
-//            LearningTrailName = (TextView) itemView.findViewById(R.id.tvLearningTrailName);
-//            buttonOptions = (Button) itemView.findViewById(R.id.buttonOptions);
-//        }
-//    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(LearningTrailMainActivity.this, RoleToggler.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("user", Trainer.fromUser(this.trainer));
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.settings_menu:
                 goToAccountSetupActivity();
                 return true;
