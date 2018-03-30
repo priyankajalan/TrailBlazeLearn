@@ -52,7 +52,7 @@ public class SetTrailStationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_trail_station);
+        setContentView(R.layout.set_trail_station);
 
         mFireStore = FirebaseFirestore.getInstance();
 

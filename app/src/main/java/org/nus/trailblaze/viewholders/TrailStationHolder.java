@@ -30,7 +30,6 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
 //    private TextView stationId;
     private TextView stationName;
     private Button btnUpdate;
-    private Button btnDelete;
     private RecyclerView trailStationView;
     private ListItemClickListener listener;
     private Context context;
@@ -49,14 +48,7 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
 //        stationId = (TextView) itemView.findViewById(R.id.station_id);
         stationName = (TextView) itemView.findViewById(R.id.station_name);
         btnUpdate = (Button) itemView.findViewById(R.id.btnUpdateOptions);
-        //btnDelete = (Button) itemView.findViewById(R.id.btnDeleteOptions);
 
-//        btnUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                updateStation(view);
-//            }
-//        });
 
         btnUpdate.setOnClickListener(new View.OnClickListener(){
 
@@ -117,21 +109,8 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
             }
         });
 
-//        btnDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                deleteStation(view);
-//            }
-//        });
     }
 
-    private void updateStation(View v) {
-        Log.d("stations update", v.toString());
-    }
-
-    private void deleteStation(View v) {
-        Log.d("stations delete", v.toString());
-    }
 
     public void bind(TrailStation item) {
 //        stationId.setText(item.getId());

@@ -27,7 +27,7 @@ package org.nus.trailblaze.views;
 public class TrailStationMainActivity extends Activity implements ListItemClickListener {
 
     private static final String TAG = "TrailStationMainActivity";
-    private static final Class newStationView = SetTrailStationActivity.class;
+    private static final Class setStationView = SetTrailStationActivity.class;
 
     private RecyclerView mRecyclerView;
     private Button btnUpdate;
@@ -96,7 +96,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
 
     public void btnAddStation(View view) {
         Log.d("redirecting activity","new station");
-        Intent newStnIntent = new Intent(this, TrailStationMainActivity.newStationView);
+        Intent newStnIntent = new Intent(this, TrailStationMainActivity.setStationView);
         startActivity(newStnIntent);
 
     }

@@ -96,8 +96,8 @@ public class LearningTrailMainActivity extends Activity implements ListItemClick
     public void onListItemClick(int position) {
         LearningTrail item = (LearningTrail) adapter.getItem(position);
 
-        Intent intent = new Intent(this, ViewTrailStationActivity.class);
-        intent.putExtra("trailDI", item.getName().toString());
+        Intent intent = new Intent(this, TrailStationMainActivity.class);
+        intent.putExtra("trailID", item.getName().toString());
         startActivity(intent);
     }
 }
