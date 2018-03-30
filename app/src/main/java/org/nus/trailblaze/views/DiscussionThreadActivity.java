@@ -3,46 +3,73 @@ package org.nus.trailblaze.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.models.Post;
+import org.nus.trailblaze.models.ThreadPost;
+import org.nus.trailblaze.viewholders.ThreadHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
 public class DiscussionThreadActivity extends AppCompatActivity {
-    //Declaring widgets
-    private EditText threadMessageText;
-    private ImageView newThreadPostImage;
 
-    //Declaring Firebase
-    private StorageReference storageReference;
+    private RecyclerView threadListView;
+    private List<ThreadPost> threadList;
+
     private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth firebaseAuth;
+    private ThreadHolder threadHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_thread);
 
-        //Typecasting Widgets
-        newThreadPostImage = findViewById(R.id.new_thread_post_image);
-        threadMessageText = (EditText) findViewById(R.id.thread_message_text);
+        //Thread Toolbar
+        Toolbar setupToolbar = findViewById(R.id.threadToolbar);
+        setupToolbar.setTitle("Discussion Thread");
+        setupToolbar.setSubtitle("Semakau-2017");
 
-        //Instantiate Firebase
-        storageReference = FirebaseStorage.getInstance().getReference();
+        threadListView = findViewById(R.id.threadListView);
+        threadList = new ArrayList<>();
+
+        threadHolder = new ThreadHolder(threadList);
+        threadListView.setLayoutManager(new LinearLayoutManager(getParent()));
+        threadListView.setAdapter(threadHolder);
+
         firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
+
+         firebaseFirestore.collection("discussion_threads").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                     for(DocumentChange doc: documentSnapshots.getDocumentChanges()){
+                         //Handle Added thread post
+                         if(doc.getType() == DocumentChange.Type.ADDED){
+                             ThreadPost threadPost = doc.getDocument().toObject(ThreadPost.class);
+                             threadList.add(threadPost);
+                             threadHolder.notifyDataSetChanged();
+                         }
+                     }
+            }
+        });
     }
 
-    public void sendPostClickListener(View view){
-        String threadMessage = threadMessageText.getText().toString();
-
-    }
 }

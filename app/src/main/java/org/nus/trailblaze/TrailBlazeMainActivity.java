@@ -51,7 +51,6 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     private GoogleSignInClient gClient;
     private GoogleDao gDao;
 
-
     // required for facebook login
     private LoginManager fmanager;
     private CallbackManager mCallback;

@@ -25,6 +25,8 @@ import org.nus.trailblaze.TrailBlazeMainActivity;
 import org.nus.trailblaze.adapters.LearningTrailFirestoreAdaptor;
 import org.nus.trailblaze.listeners.ListItemClickListener;
 import org.nus.trailblaze.models.LearningTrail;
+import org.nus.trailblaze.models.Trainer;
+import org.nus.trailblaze.models.User;
 
 public class LearningTrailMainActivity extends AppCompatActivity implements ListItemClickListener {
 
@@ -39,18 +41,25 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     private Toolbar mainToolbar;
 
     private Button btnAddLearningTrail;
+    private Trainer trainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.learning_trail_main);
+
+        this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
+
+        Log.d("Trainer", this.trainer.getId());
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rvLearningTrail);
         btnAddLearningTrail = (Button) findViewById(R.id.btnAddLearningTrail);
         btnAddLearningTrail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LearningTrailMainActivity.this, SetLearningTrailActivity.class);
-                startActivity(intent); // startActivity allow you to move
+                intent.putExtra("trainer", Trainer.fromUser(LearningTrailMainActivity.this.trainer));
+                startActivity(intent);
             }
         });
 
@@ -79,7 +88,7 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
                 .setQuery(query, LearningTrail.class)
                 .build();
 
-        adapter = new LearningTrailFirestoreAdaptor(response, this);
+        adapter = new LearningTrailFirestoreAdaptor(response, this, this.trainer);
 
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
@@ -110,11 +119,10 @@ public class LearningTrailMainActivity extends AppCompatActivity implements List
     @Override
     public void onListItemClick(int position) {
         LearningTrail item = (LearningTrail) adapter.getItem(position);
-        Log.d("ACTIVITY", item.getName());
-        Log.d("[TextView]", String.valueOf(item.getId()));
 
-        //Go to Trail Stations list
-
+        Intent intent = new Intent(this, ViewTrailStationActivity.class);
+        intent.putExtra("trailDI", item.getName().toString());
+        startActivity(intent);
     }
 
 //    private class OptionsButtonViewHolder extends RecyclerView.ViewHolder {

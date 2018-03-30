@@ -11,4 +11,8 @@ public class TextDocument extends File {
     public TextDocument(String id, String name, String url, Float size, Date uploadDate, String mimeType) {
         super(id, name, url, size, uploadDate, mimeType);
     }
+    public TextDocument(String id, String name)
+    {
+        super(id,name);
+    }
 }
