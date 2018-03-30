@@ -38,6 +38,10 @@ public class LearningTrailDao {
         this.learningTrail = learningTrail;
     }
 
+    public LearningTrailDao(){
+        this.ref = FirebaseFirestore.getInstance().collection(LearningTrailDao.TRAIL_COLLECTION);
+    }
+
     public void SaveLearningTrail(String documentID){
 
         if (documentID == null){
@@ -81,7 +85,7 @@ public class LearningTrailDao {
     }
 
     public Task<QuerySnapshot> getTrailById(String trail){
-        return  this.ref.whereEqualTo("trail_id", trail).get();
+        return  this.ref.whereEqualTo("name", trail).get();
     }
 
     public Task<QuerySnapshot> getTrails(Trainer trainer){
@@ -95,4 +99,5 @@ public class LearningTrailDao {
     public Task<Void> deleteTrail(LearningTrail trail){
         return this.ref.document(trail.getId()).delete();
     }
+
 }

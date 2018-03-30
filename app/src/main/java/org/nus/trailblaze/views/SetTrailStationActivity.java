@@ -11,11 +11,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.dao.TrailStationDao;
+import org.nus.trailblaze.models.LearningTrail;
+import org.nus.trailblaze.models.Location;
+import org.nus.trailblaze.models.TrailStation;
+import org.nus.trailblaze.models.Trainer;
+import org.nus.trailblaze.models.User;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -26,46 +36,51 @@ import java.util.Map;
  */
 
 
-public class SetTrailStationActivity extends AppCompatActivity {
+public class SetTrailStationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button mSaveBtn;
     private EditText mInstrn;
     private EditText mName;
-    private EditText mThread;
+    private EditText mSeq;
     private FirebaseFirestore mFireStore;
-    public static final String ID = "id";
-    public static final String NAME = "name";
-    public static final String INSTRUCTION = "instruction";
-    public static final String THREAD = "discussion_thread";
-    private static final String COLLECTION = "stations";
     public final static String DOCUMENTID ="org.nus.trailblaze.docID";
-    public final static String THREADVALUE ="org.nus.trailblaze.threadVal";
+    public final static String SEQVALUE ="org.nus.trailblaze.seqVal";
     public final static String NAMEVALUE = "org.nus.trailblaze.nameVal";
     public final static String INSTRVALUE = "org.nus.trailblaze.instrVal";
     Map<String, String> stationMap = new HashMap<>();
+    private TrailStation trailStation;
+    private Location location;
     private String documentID;
     private String nameValue;
     private String instrValue;
-    private  String threadValue;
+    private  String seqValue;
+    private String trailId;
+    private Trainer trainer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.new_trail_station);
+        setContentView(R.layout.set_trail_station);
 
         mFireStore = FirebaseFirestore.getInstance();
 
         mName = (EditText) findViewById(R.id.trail_name);
         mInstrn = (EditText) findViewById(R.id.trail_instructions);
-        mThread = (EditText) findViewById(R.id.disc_thread);
+        mSeq = (EditText) findViewById(R.id.trail_sequence);
         mSaveBtn = (Button) findViewById(R.id.btn_save_station);
+        mSaveBtn.setOnClickListener(this);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         nameValue = bundle.getString(NAMEVALUE);
-        threadValue = bundle.getString(THREADVALUE);
+        seqValue = bundle.getString(SEQVALUE);
         documentID = bundle.getString(DOCUMENTID);
         instrValue = bundle.getString(INSTRVALUE);
+
+        trailId = intent.getStringExtra("trailID");
+
+        //this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
 
 
         if (nameValue != null) {
@@ -76,52 +91,56 @@ public class SetTrailStationActivity extends AppCompatActivity {
             instrValue = instrValue.substring(instrValue.lastIndexOf("-") + 1);
             mInstrn.setText(instrValue);
         }
-        if (threadValue != null) {
-            threadValue = threadValue.substring(threadValue.lastIndexOf("-") + 1);
-            mThread.setText(threadValue);
+        if (seqValue != null) {
+            seqValue = seqValue.substring(seqValue.lastIndexOf("-") + 1);
+            mSeq.setText(seqValue);
         }
-        if(documentID != null) {
-            Log.d("docId not null",documentID);
+        if (documentID != null) {
+            Log.d("docId not null", documentID);
         } else {
             Date date = new Date();
             documentID = (String) DateFormat.format("yyMMddhhmmss", date);
         }
 
 
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
-        mSaveBtn.setOnClickListener(new View.OnClickListener() {
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onClick(View view) {
-                String stationName = mName.getText().toString();
-                String stationInstrn = mInstrn.getText().toString();
-                String stationThread = mThread.getText().toString();
+            public void onPlaceSelected(Place place) {
+                location = new Location(place.getLatLng().longitude, place.getLatLng().latitude,
+                        place.getName().toString());
 
-                stationMap.put("name", stationName);
-                stationMap.put("id", documentID);
-                stationMap.put("instruction", stationInstrn);
-                Log.d("stationThread - final",stationThread);
-                if(stationThread != null && stationThread != "") {
-                    stationMap.put("discussion_thread", stationThread);
-                    Log.d("stationThread - set!!!",stationThread);
-                }
+                Log.i("Place", "Place: " + location.getName());
+                Log.d("Place lat!!!!",String.valueOf(location.getLatitude()));
+                Log.d("Place long!!!!",String.valueOf(location.getLongitude()));
+            }
 
-                mFireStore.collection(COLLECTION).document(documentID).set(stationMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(SetTrailStationActivity.this,"Station changes saved",Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), TrailStationMainActivity.class);
-                        startActivity(i);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        String err = e.getMessage();
-                        Toast.makeText(SetTrailStationActivity.this, "Error: "+ err,Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i("Place", "An error occurred: " + status);
             }
         });
-
     }
+
+    public void onClick (View view) {
+        String stationName = mName.getText().toString();
+        String stationInstrn = mInstrn.getText().toString();
+        String stationSeq = mSeq.getText().toString();
+
+        trailStation = new TrailStation(documentID, stationName, stationInstrn, stationSeq, trailId);
+        TrailStationDao trailStationDao = new TrailStationDao(SetTrailStationActivity.this, trailStation);
+        trailStationDao.SaveTrailStation(documentID);
+
+        Intent i = new Intent(getApplicationContext(), TrailStationMainActivity.class);
+      //  i.putExtra("trainer", Trainer.fromUser(this.trainer));
+        i.putExtra("trailID", trailId);
+        i.putExtra("userMode", "trainer");
+        startActivity(i);
+    }
+
+
 
 }
