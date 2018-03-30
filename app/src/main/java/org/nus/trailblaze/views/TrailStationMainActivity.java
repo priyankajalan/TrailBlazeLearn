@@ -149,7 +149,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     public void onListItemClick(int position) {
         TrailStation item = (TrailStation) adapter.getItem(position);
         Log.d("stations activity", item.getName());
-        Intent intent = new Intent(getApplicationContext(), DiscussionThreadActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ContributedItemMainActivity.class);
         intent.putExtra("trailID", trailID);
         startActivity(intent);
     }
