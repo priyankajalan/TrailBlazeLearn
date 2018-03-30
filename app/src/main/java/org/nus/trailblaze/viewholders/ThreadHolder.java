@@ -63,20 +63,14 @@ public class ThreadHolder extends RecyclerView.Adapter<ThreadHolder.ViewHolder> 
 
         String user_id = threadList.get(position).getUserId();
         Log.i("USER INFO",user_id);
-        //Retrieve user data
+//        //Retrieve user data
 //        firebaseFirestore.collection("users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //            @Override
 //            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if(task.isSuccessful()){
-//                    String userName = task.getResult().getString("name");
-//                    String userImage = task.getResult().getString("image");
-//                    holder.setUserData(userName, userImage);
-//                } else {
-//                    //Firebase Exception
-//                    Log.i("FIREBASE USER ERROR","error");
-//                }
+//                    Log.i("USER DATA", task.getResult().toString());
 //            }
-//        });//END User Data Fetching
+//        });
+
 
         try {
             long millisecond = threadList.get(position).getCreatedDate().getTime();
@@ -130,9 +124,6 @@ public class ThreadHolder extends RecyclerView.Adapter<ThreadHolder.ViewHolder> 
 //            threadUserImage = myView.findViewById(R.id.thread_user_image);
 
             threadUserName.setText(name);
-
-//            RequestOptions placeholderOption = new RequestOptions();
-//            placeholderOption.placeholder(R.drawable.profile_placeholder);
 
 //            Glide.with(context).applyDefaultRequestOptions(placeholderOption).load(image).into(blogUserImage);
 
