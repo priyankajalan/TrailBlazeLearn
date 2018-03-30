@@ -2,14 +2,12 @@ package org.nus.trailblaze;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -18,13 +16,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.Task;
 
+import org.nus.trailblaze.dao.EmailLoginDao;
 import org.nus.trailblaze.dao.FacebookDao;
 import org.nus.trailblaze.listeners.FacebookRegistryListener;
 import org.nus.trailblaze.listeners.SignInFailureListener;
@@ -47,6 +44,9 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     public FirebaseUser loggedInUser;
     private FirebaseAuth firebaseAuth;
 
+    //required for email login
+    private EmailLoginDao eDao;
+
     // required for google Login
     private GoogleSignInClient gClient;
     private GoogleDao gDao;
@@ -59,8 +59,12 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
     //initialize the controls
     @BindView(R.id.progressBar)
     ProgressBar bar;
-    private EditText loginEmailText;
-    private EditText loginPassText;
+
+    @BindView(R.id.login_email_text)
+    EditText loginEmailText;
+
+    @BindView(R.id.login_pass_text)
+    EditText loginPassText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,57 +81,38 @@ public class TrailBlazeMainActivity extends AppCompatActivity {
         mCallback = CallbackManager.Factory.create();
         gDao = new GoogleDao();
         fDao = new FacebookDao();
+        eDao = new EmailLoginDao();
+
         gClient = gDao.getClient(this);
 
         Context currentContext = getApplicationContext();
         FacebookSdk.sdkInitialize(currentContext);
         // if the user has already logged in send them strait to next activity.
-//        loggedInUser = fDao.getCurrent();
-//        if(loggedInUser != null){
-//            Intent next = new Intent(this, RoleToggler.class);
-//            next.putExtra("user", this.fDao.fromFirebaseUser(loggedInUser));
-//            startActivity(next);
-//        }
-
+        loggedInUser = fDao.getCurrent();
         // initalize a callback to facebook button
         fmanager.registerCallback(mCallback, new FacebookRegistryListener(this, this.fDao, RoleToggler.class));
     }
 
-    //Author: Priyanka Jalan (Email with Login and Password Feature)
-
-    //Check if User is already logged in
     @Override
     protected void onStart(){
         super.onStart();
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(currentUser != null){
+        if(loggedInUser != null){
             sendToChooseLoginRole();
         }
     }
 
-    //Login with Email and Password
+    // email and password listener
     public void emailLoginClickListener(View view){
-        loginEmailText = (EditText) findViewById(R.id.login_email_text);
-        loginPassText = (EditText) findViewById(R.id.login_pass_text);
         String loginEmail = loginEmailText.getText().toString();
         String loginPass = loginPassText.getText().toString();
-        // Call Firebase to Login With Email and Password
-        firebaseAuth.signInWithEmailAndPassword(loginEmail,loginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    sendToChooseLoginRole();
-                }
-                else{
-                    String errorMessage = task.getException().getMessage();
-                    Toast.makeText(TrailBlazeMainActivity.this,"Error : " + errorMessage,Toast.LENGTH_LONG).show();
-                }
-            }
-        });//END: Firebase Auth
+        this.eDao.createFirebaseEmailAccount(loginEmail, loginPass)
+                .addOnCompleteListener(new SignInListener(this, this.eDao, RoleToggler.class))
+                .addOnFailureListener(new SignInFailureListener(this));
     }
 
     private void sendToChooseLoginRole(){
         Intent chooseLoginRoleIntent = new Intent(TrailBlazeMainActivity.this, RoleToggler.class);
+        chooseLoginRoleIntent.putExtra("user", this.fDao.fromFirebaseUser(this.loggedInUser));
         startActivity(chooseLoginRoleIntent);
         finish();
     }

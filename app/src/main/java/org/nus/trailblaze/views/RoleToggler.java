@@ -38,36 +38,29 @@ public class RoleToggler extends Activity {
         setContentView(R.layout.activity_role_toggler);
         ButterKnife.bind(this);
         dao = new AuthDao();
-        // assuming the screen wouldn't be reached without an intent.
-//        user = (User) this.getIntent().getExtras().get("user");
-//        this.email.setText(user.getEmail());
-//        this.username.setText(user.getName());
+         //assuming the screen wouldn't be reached without an intent.
+        user = (User) this.getIntent().getExtras().get("user");
+        this.email.setText(user.getEmail());
+        this.username.setText(user.getName());
     }
 
     protected void onTrainer(View view){
-        sendToLearningTrailMain();
-//        Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
-//        trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
-//        startActivity(trainerIntent);
+
+        Intent trainerIntent = new Intent(this, RoleToggler.trainerView);
+        trainerIntent.putExtra("trainer", Trainer.fromUser(this.user));
+        startActivity(trainerIntent);
     }
 
     protected void onParticipant(View view){
-        sendToLearningTrailMain();
-//        Intent participantIntent = new Intent(this, RoleToggler.participantView);
-//        participantIntent.putExtra("participant", Participant.fromUser(this.user));
-//        startActivity(participantIntent);
-    }
-
-    public void sendToLearningTrailMain(){
-        Intent learningTrailMainIntent = new Intent(RoleToggler.this,LearningTrailMainActivity.class);
-        startActivity(learningTrailMainIntent);
-        finish();
+        Intent participantIntent = new Intent(this, RoleToggler.participantView);
+        participantIntent.putExtra("participant", Participant.fromUser(this.user));
+        startActivity(participantIntent);
     }
 
     protected void onLogout(View view){
-        dao.signOut();
-        Intent intent = new Intent(this, RoleToggler.backToHome);
-        startActivity(intent);
+        Intent logoutIntent = new Intent(this, RoleToggler.backToHome);
+        this.dao.signOut();
+        startActivity(logoutIntent);
     }
 
 }
