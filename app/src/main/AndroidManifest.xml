@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,6 +18,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -27,42 +28,42 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".TrailBlazeMainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".views.SetLearningTrailActivity" >
-        </activity>
+        <activity android:name=".TrailBlazeMainActivity"></activity>
+        <activity android:name=".views.SetLearningTrailActivity"></activity>
         <activity android:name=".views.ParticipantJoin" />
-        <activity android:name=".views.LearningTrailMainActivity" >
-        </activity>
+        <activity android:name=".views.LearningTrailMainActivity"></activity>
         <activity
             android:name=".views.RoleToggler"
             android:label="@string/title_activity_role_toggler" />
         <activity android:name=".views.AudioPlayerActivity" />
-        <activity android:name=".views.ContributedItemImageActivity"></activity>
-        <activity android:name=".views.ContributedItemDocActivity"></activity>
-        <activity android:name=".views.ContributedItemMediaActivity"></activity>
+        <activity android:name=".views.ContributedItemImageActivity" />
+        <activity android:name=".views.ContributedItemDocActivity" />
+        <activity android:name=".views.ContributedItemMediaActivity" />
         <activity android:name=".views.TrailBlazeItemViewerActivity" />
         <activity android:name=".views.TrailBlazaFeedActivity" />
         <activity android:name=".views.TrailStationMainActivity" />
-        <activity android:name=".views.SetTrailStationActivity"/>
+        <activity android:name=".views.SetTrailStationActivity" />
         <activity android:name=".views.ViewTrailStationActivity" />
-        <activity android:name=".views.NewTrailStationActivity"/>
+        <activity android:name=".views.NewTrailStationActivity" />
         <activity android:name=".views.DiscussionThreadActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".views.SetupActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
+        <activity android:name=".views.DiscussionThreadNewPostActivity" />
     </application>
 
 </manifest>
