@@ -39,6 +39,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
     private LearningTrail learningTrail;
     private String trailName;
     private Trainer trainer;
+    private Button btnManageStation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
         btn = (Button) findViewById(R.id.newTrail);
         btn.setOnClickListener(this);
         et = (EditText) findViewById(R.id.trailCode);
+        btnManageStation = (Button) findViewById(R.id.btnManageStation);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
