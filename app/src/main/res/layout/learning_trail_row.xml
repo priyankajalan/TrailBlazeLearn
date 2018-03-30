@@ -22,7 +22,7 @@
         android:layout_toStartOf="@+id/btnOptions"
         android:layout_weight="1"
         android:padding="10dp"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 
     <Button
         android:id="@+id/btnOptions"
