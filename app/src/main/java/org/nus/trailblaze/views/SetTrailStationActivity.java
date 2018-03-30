@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.nus.trailblaze.R;
+import org.nus.trailblaze.models.Trainer;
+import org.nus.trailblaze.models.User;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -31,22 +33,24 @@ public class SetTrailStationActivity extends AppCompatActivity {
     private Button mSaveBtn;
     private EditText mInstrn;
     private EditText mName;
-    private EditText mThread;
+    private EditText mSeq;
     private FirebaseFirestore mFireStore;
     public static final String ID = "id";
     public static final String NAME = "name";
     public static final String INSTRUCTION = "instruction";
-    public static final String THREAD = "discussion_thread";
+    public static final String SEQ = "sequence";
     private static final String COLLECTION = "stations";
     public final static String DOCUMENTID ="org.nus.trailblaze.docID";
-    public final static String THREADVALUE ="org.nus.trailblaze.threadVal";
+    public final static String SEQVALUE ="org.nus.trailblaze.seqVal";
     public final static String NAMEVALUE = "org.nus.trailblaze.nameVal";
     public final static String INSTRVALUE = "org.nus.trailblaze.instrVal";
     Map<String, String> stationMap = new HashMap<>();
     private String documentID;
     private String nameValue;
     private String instrValue;
-    private  String threadValue;
+    private  String seqValue;
+    private String trailId;
+
 
 
     @Override
@@ -58,14 +62,17 @@ public class SetTrailStationActivity extends AppCompatActivity {
 
         mName = (EditText) findViewById(R.id.trail_name);
         mInstrn = (EditText) findViewById(R.id.trail_instructions);
-        mThread = (EditText) findViewById(R.id.disc_thread);
+        mSeq = (EditText) findViewById(R.id.trail_sequence);
         mSaveBtn = (Button) findViewById(R.id.btn_save_station);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         nameValue = bundle.getString(NAMEVALUE);
-        threadValue = bundle.getString(THREADVALUE);
+        seqValue = bundle.getString(SEQVALUE);
         documentID = bundle.getString(DOCUMENTID);
         instrValue = bundle.getString(INSTRVALUE);
+
+        trailId = intent.getStringExtra("trailID");
+        Log.d("trainer set bundle", trailId);
 
 
         if (nameValue != null) {
@@ -76,9 +83,9 @@ public class SetTrailStationActivity extends AppCompatActivity {
             instrValue = instrValue.substring(instrValue.lastIndexOf("-") + 1);
             mInstrn.setText(instrValue);
         }
-        if (threadValue != null) {
-            threadValue = threadValue.substring(threadValue.lastIndexOf("-") + 1);
-            mThread.setText(threadValue);
+        if (seqValue != null) {
+            seqValue = seqValue.substring(seqValue.lastIndexOf("-") + 1);
+            mSeq.setText(seqValue);
         }
         if(documentID != null) {
             Log.d("docId not null",documentID);
@@ -94,22 +101,20 @@ public class SetTrailStationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String stationName = mName.getText().toString();
                 String stationInstrn = mInstrn.getText().toString();
-                String stationThread = mThread.getText().toString();
+                String stationSeq = mSeq.getText().toString();
 
                 stationMap.put("name", stationName);
                 stationMap.put("id", documentID);
                 stationMap.put("instruction", stationInstrn);
-                Log.d("stationThread - final",stationThread);
-                if(stationThread != null && stationThread != "") {
-                    stationMap.put("discussion_thread", stationThread);
-                    Log.d("stationThread - set!!!",stationThread);
-                }
+                stationMap.put("sequence", stationSeq);
+                stationMap.put("trail_id", trailId);
 
                 mFireStore.collection(COLLECTION).document(documentID).set(stationMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(SetTrailStationActivity.this,"Station changes saved",Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), TrailStationMainActivity.class);
+                        i.putExtra("trailID", trailId);
                         startActivity(i);
                     }
                 }).addOnFailureListener(new OnFailureListener() {

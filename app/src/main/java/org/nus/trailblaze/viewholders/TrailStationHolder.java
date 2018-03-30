@@ -70,11 +70,7 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
                         Log.d("[DocID Trial delete]", String.valueOf(R.id.itemDelete));
                         Log.d("[DocID Trial edit]", String.valueOf(R.id.itemEdit));
                         Log.d("[DocID Trial itemid]", String.valueOf(itemID));
-                        String threadValue = null;
-                        Object str = docSnapshot.getData().get(SetTrailStationActivity.THREAD);
-                        if(str != null) {
-                            threadValue = str.toString();
-                        }
+                        final String seqValue = docSnapshot.getData().get(SetTrailStationActivity.SEQ).toString();
                         final String nameValue = docSnapshot.getData().get(SetTrailStationActivity.NAME).toString();
                         final String instrValue = docSnapshot.getData().get(SetTrailStationActivity.INSTRUCTION).toString();
 
@@ -92,8 +88,8 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
                                 Bundle bundle = new Bundle();
                                 bundle.putString(SetTrailStationActivity.DOCUMENTID, documentID);
                                 Log.d("[ID-id]", String.valueOf(documentID));
-                                bundle.putString(SetTrailStationActivity.THREADVALUE, threadValue);
-                                Log.d("[ID-thread]", String.valueOf(threadValue));
+                                bundle.putString(SetTrailStationActivity.SEQVALUE, seqValue);
+                                Log.d("[ID-seq]", String.valueOf(seqValue));
                                 bundle.putString(SetTrailStationActivity.NAMEVALUE, nameValue);
                                 Log.d("[ID-name]", String.valueOf(nameValue));
                                 bundle.putString(SetTrailStationActivity.INSTRVALUE, instrValue);

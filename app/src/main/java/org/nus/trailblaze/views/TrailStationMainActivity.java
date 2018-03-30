@@ -19,6 +19,8 @@ package org.nus.trailblaze.views;
         import org.nus.trailblaze.adapters.TrailStationFirestoreAdapter;
         import org.nus.trailblaze.listeners.ListItemClickListener;
         import org.nus.trailblaze.models.TrailStation;
+        import org.nus.trailblaze.models.Trainer;
+        import org.nus.trailblaze.models.User;
 
 /**
  * Created by AswathyLeelakumari on 24/3/2018.
@@ -35,12 +37,22 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     private RecyclerView.LayoutManager mLayoutManager;
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore firestoreDB;
+    private Trainer trainer;
+    private String trailID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trail_station_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_trail_station_list);
+
+     //   this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
+        Log.d("trained id added","");
+
+        Intent intent = getIntent();
+        trailID = intent.getStringExtra("trailID");
+        Log.d("trainer bundle", trailID);
 
 
         // use this setting to improve performance if you know that changes
@@ -59,7 +71,8 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     }
 
     private void loadTrialStations() {
-        Query query = firestoreDB.collection("stations");
+        Query query = firestoreDB.collection("stations").whereEqualTo("trail_id",trailID);
+        Log.d("query bundle", String.valueOf(query));
 
         FirestoreRecyclerOptions<TrailStation> response = new FirestoreRecyclerOptions.Builder<TrailStation>()
                 .setQuery(query, TrailStation.class)
@@ -97,6 +110,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     public void btnAddStation(View view) {
         Log.d("redirecting activity","new station");
         Intent newStnIntent = new Intent(this, TrailStationMainActivity.setStationView);
+        newStnIntent.putExtra("trailID", trailID);
         startActivity(newStnIntent);
 
     }

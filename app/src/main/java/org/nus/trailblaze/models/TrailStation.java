@@ -9,6 +9,8 @@ public class TrailStation {
     private Location location;
     private String name;
     private String instruction;
+    private String sequence;
+    private String trail_id;
 
     public TrailStation() {};
 
@@ -17,6 +19,8 @@ public class TrailStation {
         this.location = location;
         this.name = name;
         this.instruction = instruction;
+        this.sequence = sequence;
+        this.trail_id = trail_id;
     }
 
     public String getId() {
@@ -39,9 +43,7 @@ public class TrailStation {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {  this.name = name; }
 
     public String getInstruction() {
         return instruction;
@@ -50,5 +52,22 @@ public class TrailStation {
     public void setInstruction(String instruction) {
         this.instruction = instruction;
     }
+
+    public String getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
+
+    public String getTrailId() {
+        return trail_id;
+    }
+
+    public void setTrailId(String trail_id) {
+        this.trail_id = trail_id;
+    }
+
 
 }

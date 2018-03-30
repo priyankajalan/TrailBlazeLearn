@@ -32,6 +32,15 @@
             android:hint="Enter Name" />
 
         <EditText
+            android:id="@+id/trail_sequence"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:inputType="number"
+            android:background="@drawable/edit_text"
+            android:hint="Enter Order of sequence" />
+
+        <EditText
             android:id="@+id/trail_instructions"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -41,15 +50,6 @@
             android:hint="Specific Instructions"
             android:inputType="textMultiLine" />
 
-        <EditText
-            android:id="@+id/disc_thread"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/edit_text"
-            android:ems="10"
-            android:hint="Discussion Thread (Optional)"
-            android:inputType="textMultiLine" />
 
         <Button
             android:id="@+id/btn_save_station"
@@ -62,7 +62,5 @@
             android:textColor="@color/white"
             android:textStyle="bold" />
     </LinearLayout>
-
-
 
 </RelativeLayout>
