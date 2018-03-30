@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,6 +52,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
         btn.setOnClickListener(this);
         et = (EditText) findViewById(R.id.trailCode);
         btnManageStation = (Button) findViewById(R.id.btnManageStation);
+        btnManageStation.setOnClickListener(this);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -98,6 +100,23 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
     @Override
     public void onClick (View view) {
 
+        switch (view.getId()) {
+
+            case R.id.newTrail:
+                save();
+                break;
+
+            case R.id.btnManageStation:
+                goToStationActivity();
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    private void save() {
         if (trailcode == null){
             Toast.makeText(SetLearningTrailActivity.this, "Please enter a Trail Code",
                     Toast.LENGTH_SHORT).show();
@@ -114,5 +133,13 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
             intent.putExtra("trainer", Trainer.fromUser(this.trainer));
             startActivity(intent);
         }
+    }
+
+    private void goToStationActivity() {
+        Intent intent = new Intent(this, TrailStationMainActivity.class);
+        intent.putExtra("trailID", trailName);
+        intent.putExtra("userMode", "trainer");
+        intent.putExtra("trainer", Trainer.fromUser(this.trainer));
+        startActivity(intent);
     }
 }
