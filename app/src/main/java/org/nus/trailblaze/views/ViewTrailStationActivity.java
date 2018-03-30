@@ -29,6 +29,7 @@ public class ViewTrailStationActivity extends Activity implements ListItemClickL
     private static final String TAG = "ViewTrailStationActivity";
     private static final Class newStationView = NewTrailStationActivity.class;
 
+    private String learningTrailID;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private FirestoreRecyclerAdapter adapter;
@@ -50,11 +51,13 @@ public class ViewTrailStationActivity extends Activity implements ListItemClickL
 
         firestoreDB = FirebaseFirestore.getInstance();
 
-        loadTrialStations();
+        learningTrailID = (String) this.getIntent().getExtras().get("trailID");
+
+        loadTrialStations(learningTrailID);
     }
 
-    private void loadTrialStations() {
-        Query query = firestoreDB.collection("stations");
+    private void loadTrialStations(String trailid) {
+        Query query = firestoreDB.collection("stations").whereEqualTo("trail_id", trailid);
 
         FirestoreRecyclerOptions<TrailStation> response = new FirestoreRecyclerOptions.Builder<TrailStation>()
                 .setQuery(query, TrailStation.class)

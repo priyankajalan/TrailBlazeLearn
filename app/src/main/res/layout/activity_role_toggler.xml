@@ -45,7 +45,7 @@
             android:layout_gravity="center"
             android:text="Select your role"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
