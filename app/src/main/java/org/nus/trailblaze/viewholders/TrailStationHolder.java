@@ -67,7 +67,6 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
     }
 
         public void bind(final TrailStation station) {
-            Log.d("Item", station.getId());
             stationName.setText(station.getName());
 
             btnUpdate.setOnClickListener(new View.OnClickListener(){
@@ -93,9 +92,9 @@ public class TrailStationHolder extends RecyclerView.ViewHolder implements View.
                                     bundle.putString(SetTrailStationActivity.SEQVALUE, station.getSequence());
                                     bundle.putString(SetTrailStationActivity.NAMEVALUE, station.getName());
                                     bundle.putString(SetTrailStationActivity.INSTRVALUE, station.getInstruction());
+                                    bundle.putString(SetTrailStationActivity.LOCVALUE, station.getLocation().getName());
                                     intent.putExtras(bundle);
 
-                                    //intent.putExtra("trainer", Trainer.fromUser(TrailStationHolder.this.trainer));
                                     context.startActivity(intent);
                                     break;
                             }

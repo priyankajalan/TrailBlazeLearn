@@ -57,7 +57,6 @@ public class ViewDetailStationActivity extends AppCompatActivity implements List
                 Intent discIntent = new Intent(ViewDetailStationActivity.this, ViewDetailStationActivity.goDiscThread);
                 discIntent.putExtra("trailID", trailId);
                 discIntent.putExtra("stationID", stnId);
-                //newStnIntent.putExtra("trainer", Trainer.fromUser(TrailStationMainActivity.this.trainer));
                 startActivity(discIntent);
             }
         });
