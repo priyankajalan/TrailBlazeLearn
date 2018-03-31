@@ -17,8 +17,10 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.nus.trailblaze.R;
@@ -147,12 +149,18 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
 
         trailStation = new TrailStation(documentID, location, stationName, stationInstrn, stationSeq, trailId);
         TrailStationDao trailStationDao = new TrailStationDao(SetTrailStationActivity.this, trailStation);
-        trailStationDao.SaveTrailStation(documentID);
-
-        Intent i = new Intent(getApplicationContext(), TrailStationMainActivity.class);
-        i.putExtra("trailID", trailId);
-        i.putExtra("userMode", "trainer");
-        startActivity(i);
+        trailStationDao.SaveTrailStation(documentID)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        SetTrailStationActivity.this.finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("[DEBUG/FAIL]", e.toString());
+            }
+        });
     }
 
 
