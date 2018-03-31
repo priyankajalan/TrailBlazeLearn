@@ -67,6 +67,7 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
         mBtnAddStation = (Button) findViewById(R.id.btn_add_trail_station);
 
         Intent intent = getIntent();
+        trainer = Trainer.fromUser((User) intent.getExtras().get("user"));
         trailID = intent.getStringExtra("trailID");
         userMode = intent.getStringExtra("userMode");
 
@@ -80,8 +81,6 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
                 startActivity(newStnIntent);
             }
         });
-
-       // this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
 
         if (userMode.equals("trainer"))
         {
@@ -165,9 +164,10 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(TrailStationMainActivity.this, RoleToggler.class);
+                Intent intent = new Intent(this, LearningTrailMainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("user", Trainer.fromUser(this.trainer));
+                Log.d("[DEBUG/STATION]", this.trainer.toString());
+                intent.putExtra("trainer", this.trainer);
                 startActivity(intent);
                 finish();
                 return true;
