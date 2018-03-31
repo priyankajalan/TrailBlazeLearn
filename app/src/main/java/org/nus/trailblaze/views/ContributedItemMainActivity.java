@@ -99,9 +99,10 @@ public class ContributedItemMainActivity  extends FragmentActivity
     }
 
     public void goToThreadListener(View view){
+        String stationID = getIntent().getStringExtra("trailID");
         Intent threadIntent = new Intent(ContributedItemMainActivity.this,DiscussionThreadActivity.class);
         startActivity(threadIntent);
-        finish();
+//        finish();
     }
 
 }
