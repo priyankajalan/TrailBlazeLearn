@@ -41,6 +41,7 @@ public class ViewDetailStationActivity extends AppCompatActivity implements List
     private String stnId;
     private String locName;
     private String instrn;
+    private  Button btnContriItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,18 @@ public class ViewDetailStationActivity extends AppCompatActivity implements List
                 startActivity(discIntent);
             }
         });
+
+        btnContriItem=(Button) findViewById(R.id.btnGotoContributedItem);
+        btnContriItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent discIntent = new Intent(ViewDetailStationActivity.this, ContributedItemMainActivity.class);
+                discIntent.putExtra("trailID", trailId);
+                discIntent.putExtra("stationID", stnId);
+                startActivity(discIntent);
+            }
+        });
+
 
         Intent intent = getIntent();
         trailId = intent.getStringExtra("trailID");

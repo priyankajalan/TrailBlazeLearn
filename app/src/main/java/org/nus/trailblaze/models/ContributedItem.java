@@ -14,13 +14,14 @@ import java.util.List;
 
 public class ContributedItem extends Item {
     private String description;
-    private String learningTrailId;
 
     public ContributedItem() {}
 
-    public ContributedItem(String id, User user, Date createdDate, File file, String description) {
+    public ContributedItem(String id, User user, Date createdDate, File file, String description,String staionId,String tailId) {
         super(id, user, createdDate, file);
         this.description = description;
+        this.learningTrailId=tailId;
+        this.trailStationId=staionId;
     }
     public ContributedItem(String id, User user,String description)
     {

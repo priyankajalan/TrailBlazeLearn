@@ -8,7 +8,7 @@ import static junit.framework.Assert.assertEquals;
 public class TestContributedItem {
 
     ContributedItem contributedItem1 = new ContributedItem("String id", null, null,
-            null, "String description");
+            null, "String description","trailstationid","learningtrailid");
 
     @Test
     public void testGetID() {
@@ -32,6 +32,12 @@ public class TestContributedItem {
     public void testGetDescription() {
 
         assertEquals ("String description", contributedItem1.getDescription());
+    }
+
+    @Test
+    public void testGetLearningTraild() {
+
+        assertEquals ("learningtrailid", contributedItem1.getLearningTrailId());
     }
 
 }
