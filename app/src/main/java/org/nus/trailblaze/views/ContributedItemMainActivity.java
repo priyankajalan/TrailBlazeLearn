@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,7 +20,7 @@ import org.nus.trailblaze.R;
 import org.nus.trailblaze.fragments.FeedFragment;
 import org.nus.trailblaze.models.ContributedItem;
 
-public class ContributedItemMainActivity  extends FragmentActivity
+public class ContributedItemMainActivity  extends AppCompatActivity
         implements FeedFragment.OnPassItem{
 
     //Declaring Fragments
@@ -44,10 +45,13 @@ public class ContributedItemMainActivity  extends FragmentActivity
         Toolbar itemToolbar = findViewById(R.id.itemToolbar);
         itemToolbar.setTitle("Contributed Item");
 
+
+        String stationId = (String)this.getIntent().getExtras().get("stationID");
+
         //Initializing Fragments
         feedFragment = new FeedFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id", "TrailStationId1");
+        bundle.putString("id", stationId);
         bundle.putString("userMode", "participant");
         feedFragment.setArguments(bundle);
 
