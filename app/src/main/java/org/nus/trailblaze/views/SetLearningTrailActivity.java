@@ -52,6 +52,7 @@ public class SetLearningTrailActivity extends AppCompatActivity implements View.
         btn.setOnClickListener(this);
         et = (EditText) findViewById(R.id.trailCode);
         btnManageStation = (Button) findViewById(R.id.btnManageStation);
+        btnManageStation.setVisibility(Button.INVISIBLE);
         btnManageStation.setOnClickListener(this);
 
         Intent intent = getIntent();
