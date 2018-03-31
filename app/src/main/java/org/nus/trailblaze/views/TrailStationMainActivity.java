@@ -157,6 +157,7 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
         }
         intent.putExtra("trailID", trailID);
         intent.putExtra("stationID",item.getId());
+        Log.d("SENDING/TRAIL", item.getId());
         startActivity(intent);
     }
 
