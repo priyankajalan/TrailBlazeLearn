@@ -1,9 +1,11 @@
 package org.nus.trailblaze.views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -47,11 +49,13 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
     public final static String SEQVALUE ="org.nus.trailblaze.seqVal";
     public final static String NAMEVALUE = "org.nus.trailblaze.nameVal";
     public final static String INSTRVALUE = "org.nus.trailblaze.instrVal";
+    public final static String LOCVALUE = "org.nus.trailblaze.locVal";
     Map<String, String> stationMap = new HashMap<>();
     private TrailStation trailStation;
     private Location location;
     private String documentID;
     private String nameValue;
+    private String locValue;
     private String instrValue;
     private  String seqValue;
     private String trailId;
@@ -77,6 +81,7 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
         seqValue = bundle.getString(SEQVALUE);
         documentID = bundle.getString(DOCUMENTID);
         instrValue = bundle.getString(INSTRVALUE);
+        locValue = bundle.getString(LOCVALUE);
 
         trailId = intent.getStringExtra("trailID");
 
@@ -103,8 +108,20 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
         }
 
 
+        Toolbar stnToolbar = (Toolbar) findViewById(R.id.stnEditToolbar);
+        setSupportActionBar(stnToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        //autocompleteFragment.getView().setBackgroundColor(Color.BLUE);
+        EditText et = (EditText) autocompleteFragment.getView().findViewById(R.id.place_autocomplete_search_input);
+        et.setHint("Search Location");
+        et.setTextSize(17.0f);
+        if(locValue != null) {
+            et.setText(locValue);
+        }
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -133,7 +150,6 @@ public class SetTrailStationActivity extends AppCompatActivity implements View.O
         trailStationDao.SaveTrailStation(documentID);
 
         Intent i = new Intent(getApplicationContext(), TrailStationMainActivity.class);
-      //  i.putExtra("trainer", Trainer.fromUser(this.trainer));
         i.putExtra("trailID", trailId);
         i.putExtra("userMode", "trainer");
         startActivity(i);
