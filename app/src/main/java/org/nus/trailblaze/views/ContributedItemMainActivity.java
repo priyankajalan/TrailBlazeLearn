@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,10 +29,9 @@ import org.nus.trailblaze.models.ContributedItem;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-public class ContributedItemMainActivity  extends FragmentActivity
-        implements FeedFragment.OnPassItem{
+
+public class ContributedItemMainActivity  extends AppCompatActivity implements FeedFragment.OnPassItem{
 
     //Declaring Fragments
     private FeedFragment feedFragment;
@@ -57,18 +57,19 @@ public class ContributedItemMainActivity  extends FragmentActivity
         Toolbar itemToolbar = findViewById(R.id.itemToolbar);
         itemToolbar.setTitle("Contributed Item");
 
+
+        stationId = this.getIntent().getStringExtra("stationID");
+        trailId= getIntent().getStringExtra("trailID");
+
+        Log.d("SENDING/TRIAL", stationId);
         //Initializing Fragments
         feedFragment = new FeedFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("id", "TrailStationId1");
+        bundle.putString("id", stationId);
         bundle.putString("userMode", "participant");
         feedFragment.setArguments(bundle);
 
         replaceFragment(feedFragment);
-
-
-        stationId=  getIntent().getStringExtra("stationID" );
-        trailId= getIntent().getStringExtra("trailID");
 
 
     }
@@ -127,6 +128,7 @@ public class ContributedItemMainActivity  extends FragmentActivity
 
         }
         myIntent.putExtra("Item", item);
+        myIntent.putExtra("stationID", this.stationId);
         startActivity(myIntent);
         // Following the documentation, right after starting the activity
         // we override the transition

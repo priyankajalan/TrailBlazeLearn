@@ -76,9 +76,10 @@ public class DiscussionThreadActivity extends AppCompatActivity {
     }
 
     public void gotoAddPostClickListener(View view){
+        String stationID = getIntent().getStringExtra("stationID");
         Intent addPostIntent = new Intent(DiscussionThreadActivity.this,DiscussionThreadNewPostActivity.class);
+        addPostIntent.putExtra("stationID",stationID);
         startActivity(addPostIntent);
-        finish();
     }
 
     @Override
