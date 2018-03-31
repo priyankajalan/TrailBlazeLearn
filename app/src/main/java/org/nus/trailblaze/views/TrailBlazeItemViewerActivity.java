@@ -69,17 +69,17 @@ public class TrailBlazeItemViewerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Class c = ContributedItemMainActivity.class;
-                if(userMode.equals("trainer")) {
-                    c = TrailBlazaFeedActivity.class;
-
-                }
-                Intent intent = new Intent(TrailBlazeItemViewerActivity.this, c);
-                intent.putExtra("trailID", contributedItem.getLearningTrailId());
-                intent.putExtra("userMode", userMode);
-
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+//                Class c = ContributedItemMainActivity.class;
+//                if(userMode.equals("trainer")) {
+//                    c = TrailBlazaFeedActivity.class;
+//
+//                }
+//                Intent intent = new Intent(TrailBlazeItemViewerActivity.this, c);
+//                intent.putExtra("trailID", contributedItem.getLearningTrailId());
+//                intent.putExtra("userMode", userMode);
+//
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
                 finish();
                 return true;
 
