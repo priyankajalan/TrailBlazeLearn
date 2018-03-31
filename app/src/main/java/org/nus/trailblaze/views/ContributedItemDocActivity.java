@@ -47,9 +47,12 @@ public class ContributedItemDocActivity extends AppCompatActivity  {
     private final int PICK_DOC_REQUEST = 71;
     private EditText editText_Description;
     private TextView textView_Comment;
+    private  String stationId;
+    private  String learningTailId;
+
     //Get Participant from context
     Participant p= new Participant("PT1","Participant (Green)","Green@test.com");
-    TextDocument td= new TextDocument("Doc1","Document (PDF/Text)","Test@Url",1.0f,new Date(),"PDF/TXT" );
+    TextDocument td= new TextDocument(UUID.randomUUID().toString(),"Document (PDF/Text)","Test@Url",1.0f,new Date(),"PDF/TXT" );
     ContributedItem ci;
 
     @Override
@@ -64,12 +67,14 @@ public class ContributedItemDocActivity extends AppCompatActivity  {
         btnUpload = (Button) findViewById(R.id.btnUpload);
         editText_Description=(EditText)findViewById(R.id.editText_Description);
         textView_Comment=(TextView)findViewById(R.id.textView_Comment);
+        stationId=getIntent().getStringExtra("stationID");
+        learningTailId=getIntent().getStringExtra("trailID");
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseFile();
-                ci= new ContributedItem("ContributedItem_7",p,new Date(),td,editText_Description.getText().toString());
+                ci= new ContributedItem(UUID.randomUUID().toString(),p,new Date(),td,editText_Description.getText().toString(),stationId,learningTailId);
             }
         });
 

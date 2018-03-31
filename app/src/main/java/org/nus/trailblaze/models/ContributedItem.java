@@ -17,9 +17,11 @@ public class ContributedItem extends Item {
 
     public ContributedItem() {}
 
-    public ContributedItem(String id, User user, Date createdDate, File file, String description) {
+    public ContributedItem(String id, User user, Date createdDate, File file, String description,String staionId,String tailId) {
         super(id, user, createdDate, file);
         this.description = description;
+        this.learningTrailId=tailId;
+        this.trailStationId=staionId;
     }
     public ContributedItem(String id, User user,String description)
     {
@@ -35,11 +37,20 @@ public class ContributedItem extends Item {
         this.description = description;
     }
 
+    public String getLearningTrailId() {
+        return learningTrailId;
+    }
+
+    public void setLearningTrailId(String learningTrailId) {
+        this.learningTrailId = learningTrailId;
+    }
+
     // Storing the Movie data to Parcel object
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(getId());
         dest.writeString(getDescription());
+        dest.writeString(getLearningTrailId());
         dest.writeParcelable(getFile(), flags);
     }
 
@@ -51,6 +62,7 @@ public class ContributedItem extends Item {
     private ContributedItem(Parcel in){
         this.setId(in.readString());
         this.setDescription(in.readString());
+        this.setLearningTrailId(in.readString());
         this.setFile((File)in.readParcelable(File.class.getClassLoader()));
     }
 

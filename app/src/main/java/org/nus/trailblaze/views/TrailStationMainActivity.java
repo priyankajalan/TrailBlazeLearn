@@ -4,6 +4,7 @@ package org.nus.trailblaze.views;
         import android.app.Activity;
         import android.content.Intent;
         import android.os.Bundle;
+        import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.LinearLayoutManager;
         import android.support.v7.widget.RecyclerView;
         import android.support.v7.widget.Toolbar;
@@ -23,7 +24,6 @@ package org.nus.trailblaze.views;
 
         import org.nus.trailblaze.R;
         import org.nus.trailblaze.TrailBlazeMainActivity;
-        import org.nus.trailblaze.adapters.LearningTrailFirestoreAdaptor;
         import org.nus.trailblaze.adapters.TrailStationFirestoreAdapter;
         import org.nus.trailblaze.listeners.ListItemClickListener;
         import org.nus.trailblaze.models.Participant;
@@ -35,7 +35,7 @@ package org.nus.trailblaze.views;
  * Created by AswathyLeelakumari on 24/3/2018.
  */
 
-public class TrailStationMainActivity extends Activity implements ListItemClickListener {
+public class TrailStationMainActivity extends AppCompatActivity implements ListItemClickListener {
 
     private static final String TAG = "TrailStationMainActivity";
     private static final Class setStationView = SetTrailStationActivity.class;
@@ -50,7 +50,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
-    private Trainer trainer;
+    private User trainer;
     private String trailID;
     private String userMode;
 
@@ -67,6 +67,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
         mBtnAddStation = (Button) findViewById(R.id.btn_add_trail_station);
 
         Intent intent = getIntent();
+        trainer = (User) intent.getExtras().get("user");
         trailID = intent.getStringExtra("trailID");
         userMode = intent.getStringExtra("userMode");
 
@@ -81,11 +82,10 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
             }
         });
 
-       // this.trainer = Trainer.fromUser((User) this.getIntent().getExtras().get("trainer"));
-
         if (userMode.equals("trainer"))
         {
             mBtnAddStation.setVisibility(View.VISIBLE); //SHOW the button
+
         }
 
         // use this setting to improve performance if you know that changes
@@ -100,10 +100,9 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
 
         //Account Settings Toolbar
         Toolbar trailToolbar = (Toolbar) findViewById(R.id.trailToolbar);
-        trailToolbar.setTitle(trailID);
-        //setSupportActionBar(trailToolbar);
-        // getSupportActionBar().setTitle(trailID);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(trailToolbar);
+        getSupportActionBar().setTitle(trailID);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadTrialStations();
 
@@ -116,7 +115,7 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
                 .setQuery(query, TrailStation.class)
                 .build();
 
-        adapter = new TrailStationFirestoreAdapter(response, this, this.trainer) {
+        adapter = new TrailStationFirestoreAdapter(response, this, Trainer.fromUser(this.trainer)) {
             @Override
             public void onDataChanged() {
                 progressBar.setVisibility(View.GONE);
@@ -148,9 +147,16 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     @Override
     public void onListItemClick(int position) {
         TrailStation item = (TrailStation) adapter.getItem(position);
-        Log.d("stations activity", item.getName());
+        Class intentClass = ViewDetailStationActivity.class;
+
         Intent intent = new Intent(getApplicationContext(), ContributedItemMainActivity.class);
+        if (userMode.equals("participant")) {
+            intent = new Intent(getApplicationContext(), ViewDetailStationActivity.class);
+            intent.putExtra("location",item.getLocation().getName());
+            intent.putExtra("instructions",item.getInstruction());
+        }
         intent.putExtra("trailID", trailID);
+        intent.putExtra("stationID",item.getId());
         startActivity(intent);
     }
 
@@ -158,10 +164,18 @@ public class TrailStationMainActivity extends Activity implements ListItemClickL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(TrailStationMainActivity.this, RoleToggler.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("user", Trainer.fromUser(this.trainer));
-                startActivity(intent);
+//                Intent intent = null;
+//                if(userMode.equals("trainer")){
+//                    intent = new Intent(this, LearningTrailMainActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    Log.d("[DEBUG/STATION]", this.trainer.toString());
+//                    intent.putExtra("trainer", Trainer.fromUser(this.trainer));
+//                } else {
+//                    intent = new Intent(this, ParticipantJoin.class);
+//                    intent.putExtra("participant", Participant.fromUser(this.trainer));
+//                }
+//
+//                startActivity(intent);
                 finish();
                 return true;
             case R.id.settings_menu:

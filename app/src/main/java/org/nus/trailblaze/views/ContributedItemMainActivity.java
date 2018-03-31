@@ -27,6 +27,8 @@ public class ContributedItemMainActivity  extends FragmentActivity
 
     private Toolbar itemToolbar;
     private FirebaseAuth firebaseAuth;
+    private  String stationId;
+    private  String trailId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +46,17 @@ public class ContributedItemMainActivity  extends FragmentActivity
 
         //Initializing Fragments
         feedFragment = new FeedFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", "TrailStationId1");
+        bundle.putString("userMode", "participant");
+        feedFragment.setArguments(bundle);
 
         replaceFragment(feedFragment);
+
+
+        stationId=  getIntent().getStringExtra("stationID" );
+        trailId= getIntent().getStringExtra("trailID");
+
 
     }
     //Handle Bottom navigation menu clicks
@@ -56,13 +67,24 @@ public class ContributedItemMainActivity  extends FragmentActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menu_docs:
+                    Intent dIntent=new Intent(getApplicationContext(),ContributedItemDocActivity.class);
+                    dIntent.putExtra("trailID", trailId);
+                    dIntent.putExtra("stationID", stationId);
 
+                    startActivity(dIntent);
                     return true;
                 case R.id.menu_photos:
+                    Intent pIntent=new Intent(getApplicationContext(),ContributedItemImageActivity.class);
+                    pIntent.putExtra("trailID", trailId);
+                    pIntent.putExtra("stationID", stationId);
 
+                    startActivity(pIntent);
                     return true;
                 case R.id.menu_audio:
-
+                    Intent aIntent=new Intent(getApplicationContext(),ContributedItemMediaActivity.class);
+                    aIntent.putExtra("trailID", trailId);
+                    aIntent.putExtra("stationID", stationId);
+                    startActivity(aIntent);
                     return true;
             }
             return false;
