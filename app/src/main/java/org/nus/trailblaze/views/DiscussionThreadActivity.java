@@ -59,8 +59,8 @@ public class DiscussionThreadActivity extends AppCompatActivity {
         threadListView.setAdapter(threadHolder);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-         firebaseFirestore.collection("discussion_threads").document("48mgr5JTsjwrryuIXQMB").collection("posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        String stationID = getIntent().getStringExtra("stationID");
+         firebaseFirestore.collection("discussion_threads").document(stationID + "_threads").collection("posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                      for(DocumentChange doc: documentSnapshots.getDocumentChanges()){
@@ -83,9 +83,10 @@ public class DiscussionThreadActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(DiscussionThreadActivity.this, ContributedItemMainActivity.class);
-        startActivity(intent);
-        finish();
+        String stationID = getIntent().getStringExtra("stationID");
+        Intent feedIntent = new Intent(DiscussionThreadActivity.this, ContributedItemMainActivity.class);
+        feedIntent.putExtra("stationID",stationID);
+        startActivity(feedIntent);
         return true;
     }
 
