@@ -20,7 +20,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.nus.trailblaze.R;
@@ -142,18 +144,13 @@ public class ContributedItemMainActivity  extends AppCompatActivity implements F
         threadMap.put("stationID",stationID);
         if(!TextUtils.isEmpty(stationID)){
             //Search if any thead exists with station ID
-            firebaseFirestore.collection("discussion_threads").document(stationID + "_thread").set(threadMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            firebaseFirestore.collection("discussion_threads").document(stationID + "_thread").addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Intent threadIntent = new Intent(ContributedItemMainActivity.this,DiscussionThreadActivity.class);
-                        threadIntent.putExtra("stationID",stationID);
-                        threadIntent.putExtra("threadID",stationID + "_thread");
-                        startActivity(threadIntent);
-                        finish();
-                    }else{
-                        showToastMessage("Error !!");
-                    }
+                public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                    Intent threadIntent = new Intent(ContributedItemMainActivity.this,DiscussionThreadActivity.class);
+                    threadIntent.putExtra("stationID",stationID);
+                    threadIntent.putExtra("threadID",stationID + "_thread");
+                    startActivity(threadIntent);
                 }
             });
         }else{

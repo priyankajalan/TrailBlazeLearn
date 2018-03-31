@@ -60,7 +60,7 @@ public class DiscussionThreadActivity extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         String stationID = getIntent().getStringExtra("stationID");
-         firebaseFirestore.collection("discussion_threads").document(stationID + "_threads").collection("posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
+         firebaseFirestore.collection("discussion_threads").document(stationID + "_thread").collection("posts").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                      for(DocumentChange doc: documentSnapshots.getDocumentChanges()){
