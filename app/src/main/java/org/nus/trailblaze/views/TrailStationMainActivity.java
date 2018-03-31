@@ -50,7 +50,7 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore firestoreDB;
     private FirebaseAuth firebaseAuth;
-    private Trainer trainer;
+    private User trainer;
     private String trailID;
     private String userMode;
 
@@ -67,7 +67,7 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
         mBtnAddStation = (Button) findViewById(R.id.btn_add_trail_station);
 
         Intent intent = getIntent();
-        trainer = Trainer.fromUser((User) intent.getExtras().get("user"));
+        trainer = (User) intent.getExtras().get("user");
         trailID = intent.getStringExtra("trailID");
         userMode = intent.getStringExtra("userMode");
 
@@ -115,7 +115,7 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
                 .setQuery(query, TrailStation.class)
                 .build();
 
-        adapter = new TrailStationFirestoreAdapter(response, this, this.trainer) {
+        adapter = new TrailStationFirestoreAdapter(response, this, Trainer.fromUser(this.trainer)) {
             @Override
             public void onDataChanged() {
                 progressBar.setVisibility(View.GONE);
@@ -149,7 +149,7 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
         TrailStation item = (TrailStation) adapter.getItem(position);
         Class intentClass = ViewDetailStationActivity.class;
 
-        Intent intent = new Intent(getApplicationContext(), DiscussionThreadActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ContributedItemMainActivity.class);
         if (userMode.equals("participant")) {
             intent = new Intent(getApplicationContext(), ViewDetailStationActivity.class);
             intent.putExtra("location",item.getLocation().getName());
@@ -164,11 +164,18 @@ public class TrailStationMainActivity extends AppCompatActivity implements ListI
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(this, LearningTrailMainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                Log.d("[DEBUG/STATION]", this.trainer.toString());
-                intent.putExtra("trainer", this.trainer);
-                startActivity(intent);
+//                Intent intent = null;
+//                if(userMode.equals("trainer")){
+//                    intent = new Intent(this, LearningTrailMainActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    Log.d("[DEBUG/STATION]", this.trainer.toString());
+//                    intent.putExtra("trainer", Trainer.fromUser(this.trainer));
+//                } else {
+//                    intent = new Intent(this, ParticipantJoin.class);
+//                    intent.putExtra("participant", Participant.fromUser(this.trainer));
+//                }
+//
+//                startActivity(intent);
                 finish();
                 return true;
             case R.id.settings_menu:
