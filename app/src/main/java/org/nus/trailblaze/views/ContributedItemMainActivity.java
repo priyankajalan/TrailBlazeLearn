@@ -46,8 +46,10 @@ public class ContributedItemMainActivity  extends AppCompatActivity
         itemToolbar.setTitle("Contributed Item");
 
 
-        String stationId = (String)this.getIntent().getExtras().get("stationID");
+        stationId = this.getIntent().getStringExtra("stationID");
+        trailId= getIntent().getStringExtra("trailID");
 
+        Log.d("SENDING/TRIAL", stationId);
         //Initializing Fragments
         feedFragment = new FeedFragment();
         Bundle bundle = new Bundle();
@@ -56,10 +58,6 @@ public class ContributedItemMainActivity  extends AppCompatActivity
         feedFragment.setArguments(bundle);
 
         replaceFragment(feedFragment);
-
-
-        stationId=  getIntent().getStringExtra("stationID" );
-        trailId= getIntent().getStringExtra("trailID");
 
 
     }
@@ -118,6 +116,7 @@ public class ContributedItemMainActivity  extends AppCompatActivity
 
         }
         myIntent.putExtra("Item", item);
+        myIntent.putExtra("stationID", this.stationId);
         startActivity(myIntent);
         // Following the documentation, right after starting the activity
         // we override the transition
